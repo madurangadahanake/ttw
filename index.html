@@ -120,6 +120,13 @@
             margin-bottom: 25px;
             letter-spacing: 2px;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        /* Overtime Display Style */
+        .display.overtime {
+            color: #ff007f;
+            text-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
         }
 
         .inputs-section {
@@ -201,6 +208,12 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            transition: border-left-color 0.5s ease;
+        }
+
+        /* Overtime Status Panel Style */
+        .status-panel.overtime-panel {
+            border-left-color: #ff007f;
         }
 
         .status-row {
@@ -234,8 +247,14 @@
         }
 
         .status-row:nth-child(3) .status-value {
+            color: #ffaa00;
+            text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+        }
+
+        /* Overtime Extra Row Styling */
+        .status-row.overtime-row .status-value {
             color: #ff007f;
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
         }
     </style>
 </head>
@@ -277,18 +296,23 @@
                 <button id="resetBtn" onclick="resetTimer()">Reset</button>
             </div>
 
-            <div class="status-panel">
+            <div class="status-panel" id="mainStatusPanel">
                 <div class="status-row">
-                    <span class="status-label">Target Time Set</span>
+                    <span class="status-label">Target Time</span>
                     <span class="status-value" id="targetStatus">00:00:00</span>
                 </div>
                 <div class="status-row">
-                    <span class="status-label">Total Elapsed Time</span>
+                    <span class="status-label">Total Elapsed</span>
                     <span class="status-value" id="elapsedStatus">00:00:00</span>
                 </div>
                 <div class="status-row">
-                    <span class="status-label" style="color: #ff007f;">Total Stop Time</span>
+                    <span class="status-label">Total Stopped</span>
                     <span class="status-value" id="stopStatus">00:00:00</span>
+                </div>
+                <!-- Overtime Row (Hidden Initially) -->
+                <div class="status-row overtime-row hidden" id="overtimeRow">
+                    <span class="status-label">Overtime (අමතර කාලය)</span>
+                    <span class="status-value" id="overtimeStatus">+00:00:00</span>
                 </div>
             </div>
         </div>
@@ -296,9 +320,9 @@
     </div>
 
     <script>
-        // --- OPTIMIZED CANVAS STARFIELD ---
+        // --- CANVAS STARFIELD ---
         const canvas = document.getElementById('starCanvas');
-        const ctx = canvas.getContext('2d', { alpha: false }); // Performance tweak
+        const ctx = canvas.getContext('2d', { alpha: false });
 
         let stars = [];
         const rgbColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(0,255,204,', 'rgba(255,255,255,'];
@@ -311,7 +335,6 @@
 
         function initStars() {
             stars = [];
-            // Screen Size එක අනුව තරු ගණන සකසනවා (Mobile වලදී smooth වෙන්න)
             const numStars = canvas.width < 600 ? 60 : 120; 
             for (let i = 0; i < numStars; i++) {
                 stars.push({
@@ -326,7 +349,6 @@
         }
 
         function animateStars() {
-            // Fill background solid first since alpha is false (highly optimized)
             ctx.fillStyle = '#020208';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -343,7 +365,6 @@
             requestAnimationFrame(animateStars);
         }
 
-        // Debounce resize to prevent lag
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
@@ -353,27 +374,39 @@
         resizeCanvas();
         animateStars();
 
-
-        // --- TIMER CORE LOGIC ---
-        let countdown, stopCountUp;
-        let totalSeconds = 0, initialSeconds = 0, totalStopSeconds = 0; 
-        let isRunning = false, isStopRunning = false; 
+        // --- TIMER CORE LOGIC (WITH OVERTIME) ---
+        let mainTimer, stopCountUp;
+        let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
+        let isRunning = false, isStopRunning = false, isOvertime = false; 
 
         const display = document.getElementById('timerDisplay');
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
         const stopStatus = document.getElementById('stopStatus');
+        const overtimeRow = document.getElementById('overtimeRow');
+        const overtimeStatus = document.getElementById('overtimeStatus');
+        const mainStatusPanel = document.getElementById('mainStatusPanel');
+        
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
 
         window.onload = function() {
-            if(localStorage.getItem('ttw_remaining')) {
-                totalSeconds = parseInt(localStorage.getItem('ttw_remaining')) || 0;
+            if(localStorage.getItem('ttw_initial')) {
                 initialSeconds = parseInt(localStorage.getItem('ttw_initial')) || 0;
+                currentSeconds = parseInt(localStorage.getItem('ttw_current')) || 0;
                 totalStopSeconds = parseInt(localStorage.getItem('ttw_stop_seconds')) || 0;
+                isOvertime = localStorage.getItem('ttw_is_overtime') === 'true';
+                overtimeSeconds = parseInt(localStorage.getItem('ttw_overtime_seconds')) || 0;
                 
                 switchToActiveMode();
-                updateDisplay(totalSeconds);
+                
+                if (isOvertime) {
+                    enableOvertimeUI();
+                    updateDisplay(overtimeSeconds);
+                } else {
+                    updateDisplay(currentSeconds);
+                }
+                
                 updateStatusPanels();
 
                 if(localStorage.getItem('ttw_is_stopped') === 'true') {
@@ -399,42 +432,53 @@
             isStopRunning = false;
             localStorage.setItem('ttw_is_stopped', 'false');
 
-            if (totalSeconds === 0) {
+            if (currentSeconds === 0 && !isOvertime) {
                 const hrs = Math.max(0, parseInt(document.getElementById('hrs').value) || 0);
                 const mins = Math.max(0, Math.min(59, parseInt(document.getElementById('mins').value) || 0));
                 const secs = Math.max(0, Math.min(59, parseInt(document.getElementById('secs').value) || 0));
 
-                totalSeconds = (hrs * 3600) + (mins * 60) + secs;
-                initialSeconds = totalSeconds;
+                currentSeconds = (hrs * 3600) + (mins * 60) + secs;
+                initialSeconds = currentSeconds;
 
-                if (totalSeconds <= 0) {
+                if (currentSeconds <= 0) {
                     alert("කරුණාකර වලංගු කාලයක් ඇතුලත් කරන්න!");
                     return;
                 }
+                localStorage.setItem('ttw_initial', initialSeconds);
             }
 
             switchToActiveMode();
             isRunning = true;
-            localStorage.setItem('ttw_initial', initialSeconds);
             
-            countdown = setInterval(() => {
-                if (totalSeconds <= 0) {
-                    clearInterval(countdown);
-                    isRunning = false;
-                    alert("Time's Up!");
-                    resetTimer();
-                } else {
-                    totalSeconds--;
-                    localStorage.setItem('ttw_remaining', totalSeconds);
-                    updateDisplay(totalSeconds);
-                    updateStatusPanels();
+            mainTimer = setInterval(() => {
+                if (!isOvertime) {
+                    // Countdown Phase
+                    if (currentSeconds > 0) {
+                        currentSeconds--;
+                        localStorage.setItem('ttw_current', currentSeconds);
+                        updateDisplay(currentSeconds);
+                    } else {
+                        // Switch to Overtime Phase
+                        isOvertime = true;
+                        localStorage.setItem('ttw_is_overtime', 'true');
+                        enableOvertimeUI();
+                    }
+                } 
+                
+                if (isOvertime) {
+                    // Count-up Overtime Phase
+                    overtimeSeconds++;
+                    localStorage.setItem('ttw_overtime_seconds', overtimeSeconds);
+                    updateDisplay(overtimeSeconds);
                 }
+
+                updateStatusPanels();
             }, 1000);
         }
 
         function stopTimer() {
-            if (isRunning || (!isRunning && totalSeconds > 0 && !isStopRunning)) {
-                clearInterval(countdown);
+            if (isRunning || (!isRunning && (currentSeconds > 0 || isOvertime) && !isStopRunning)) {
+                clearInterval(mainTimer);
                 isRunning = false;
                 runStopTimer();
             }
@@ -453,26 +497,40 @@
         }
 
         function resetTimer() {
-            clearInterval(countdown);
+            clearInterval(mainTimer);
             clearInterval(stopCountUp);
             isRunning = false;
             isStopRunning = false;
-            totalSeconds = 0;
+            isOvertime = false;
+            
+            currentSeconds = 0;
             initialSeconds = 0;
             totalStopSeconds = 0;
+            overtimeSeconds = 0;
             
-            localStorage.clear(); // Clear all app data safely
+            localStorage.clear();
+
+            display.classList.remove('overtime');
+            mainStatusPanel.classList.remove('overtime-panel');
+            overtimeRow.classList.add('hidden');
 
             display.textContent = "00:00:00";
             targetStatus.textContent = "00:00:00";
             elapsedStatus.textContent = "00:00:00";
             stopStatus.textContent = "00:00:00";
+            overtimeStatus.textContent = "+00:00:00";
             
             document.getElementById('hrs').value = '';
             document.getElementById('mins').value = '';
             document.getElementById('secs').value = '';
 
             switchToSetupMode();
+        }
+
+        function enableOvertimeUI() {
+            display.classList.add('overtime');
+            mainStatusPanel.classList.add('overtime-panel');
+            overtimeRow.classList.remove('hidden');
         }
 
         function formatTime(secs) {
@@ -483,13 +541,21 @@
         }
 
         function updateDisplay(secs) {
-            display.textContent = formatTime(secs);
+            display.textContent = (isOvertime ? "+" : "") + formatTime(secs);
         }
 
         function updateStatusPanels() {
             targetStatus.textContent = formatTime(initialSeconds);
-            elapsedStatus.textContent = formatTime(initialSeconds - totalSeconds);
+            
+            // Elapsed time includes the initial countdown time + overtime
+            const elapsed = (initialSeconds - currentSeconds) + overtimeSeconds;
+            elapsedStatus.textContent = formatTime(elapsed);
+            
             stopStatus.textContent = formatTime(totalStopSeconds);
+            
+            if (isOvertime) {
+                overtimeStatus.textContent = "+" + formatTime(overtimeSeconds);
+            }
         }
     </script>
 </body>
