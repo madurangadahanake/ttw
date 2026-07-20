@@ -7,74 +7,95 @@
     <style>
         @import url('https://fonts.cdnfonts.com/css/digital-numbers');
 
-        /* Dynamic & Premium Background Decoration */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #050505;
-            background-image: 
-                linear-gradient(rgba(241, 196, 15, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(241, 196, 15, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-color: #020208;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            margin: 0;
             padding: 20px;
-            overflow-x: hidden;
+            overflow: hidden;
             position: relative;
         }
 
-        /* Glowing background blobs */
-        body::before {
-            content: '';
+        #starCanvas {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(241, 196, 15, 0.08) 0%, transparent 70%);
-            top: 10%;
-            left: 15%;
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
             pointer-events: none;
         }
 
-        body::after {
-            content: '';
+        .space-glow {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(231, 76, 60, 0.05) 0%, transparent 70%);
-            bottom: 10%;
-            right: 15%;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.05), transparent 70%),
+                        radial-gradient(circle at 20% 80%, rgba(41, 128, 185, 0.05), transparent 60%);
             z-index: -1;
             pointer-events: none;
         }
 
         h1 {
-            color: #f1c40f;
+            font-size: clamp(28px, 5vw, 38px);
             letter-spacing: 4px;
-            margin-bottom: 25px;
-            font-size: 36px;
-            text-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(90deg, #ff007f, #00f0ff, #7000ff, #ff007f);
+            background-size: 300% 100%;
+            animation: rgbText 6s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.2));
+            will-change: background-position;
+        }
+
+        @keyframes rgbText {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .timer-container {
-            background-color: rgba(0, 0, 0, 0.85);
-            border: 2px solid #222;
-            border-radius: 25px;
-            padding: 40px 50px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(241, 196, 15, 0.03);
+            background: rgba(10, 10, 20, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: clamp(20px, 5vw, 40px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
-            max-width: 750px;
-            width: 95%;
-            backdrop-filter: blur(10px);
+            max-width: 650px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
         }
 
-        /* Animation smooth වෙන්න දාපු කොටස */
+        .timer-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00f0ff, #ff007f, transparent);
+        }
+
         .fade-element {
-            transition: all 0.4s ease-in-out;
+            transition: opacity 0.3s ease-in-out;
         }
 
         .hidden {
@@ -84,103 +105,110 @@
 
         .labels {
             display: flex;
-            justify-content: space-between;
-            padding: 0 40px;
-            color: #555;
-            font-size: 14px;
+            justify-content: space-around;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: clamp(10px, 2.5vw, 13px);
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-bottom: 5px;
         }
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: 85px;
+            font-size: clamp(45px, 12vw, 80px);
             color: #ffffff;
-            margin: 15px 0 30px 0;
-            letter-spacing: 6px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         .inputs-section {
-            margin: 30px 0;
+            margin: 25px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
         }
 
         .inputs-section input {
-            width: 85px;
-            padding: 15px;
-            background: #111;
-            border: 2px solid #333;
+            width: clamp(65px, 18vw, 85px);
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            border-radius: 12px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 24px;
+            font-size: clamp(18px, 5vw, 24px);
             font-weight: bold;
-            transition: all 0.3s;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .inputs-section input:focus {
-            border-color: #f1c40f;
-            background: #151515;
-            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
+            border-color: #00f0ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
             outline: none;
         }
 
+        .controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .controls button {
-            background-color: #151515;
+            background-color: rgba(255, 255, 255, 0.03);
             color: #fff;
-            border: 2px solid #444;
-            padding: 14px 45px;
-            font-size: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 35px;
+            font-size: clamp(14px, 4vw, 16px);
             font-weight: bold;
             cursor: pointer;
-            margin: 8px;
             border-radius: 10px;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
+            flex: 1;
+            min-width: 100px;
+            max-width: 160px;
         }
 
         .controls button:hover {
-            background-color: #f1c40f;
-            color: #000;
-            border-color: #f1c40f;
-            box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+            background-color: rgba(0, 240, 255, 0.15);
+            color: #00f0ff;
+            border-color: #00f0ff;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
         }
 
         #stopBtn:hover {
-            background-color: #e74c3c;
-            border-color: #e74c3c;
-            color: #fff;
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+            background-color: rgba(255, 0, 127, 0.15);
+            border-color: #ff007f;
+            color: #ff007f;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
         }
 
         #resetBtn:hover {
-            background-color: #7f8c8d;
-            border-color: #7f8c8d;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: #aaa;
             color: #fff;
-            box-shadow: 0 0 15px rgba(127, 140, 141, 0.4);
         }
 
         .status-panel {
-            margin-top: 35px;
-            background: rgba(10, 10, 10, 0.9);
-            padding: 25px;
+            margin-top: 30px;
+            background: rgba(5, 5, 10, 0.8);
+            padding: 20px;
             border-radius: 15px;
-            border-left: 6px solid #f1c40f;
+            border-left: 4px solid #00f0ff;
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            gap: 12px;
         }
 
         .status-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #1c1c1c;
-            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 8px;
         }
 
         .status-row:last-child {
@@ -189,53 +217,51 @@
         }
 
         .status-label {
-            color: #aaa;
-            font-size: 16px;
-            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(12px, 3.5vw, 14px);
         }
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: 28px;
+            font-size: clamp(18px, 5vw, 24px);
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .status-row:nth-child(2) .status-value {
-            color: #2ecc71;
-            text-shadow: 0 0 8px rgba(46, 204, 113, 0.2);
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
         }
 
-        .status-row:nth-child(3) {
-            border-left-color: #e74c3c;
-        }
-        
         .status-row:nth-child(3) .status-value {
-            color: #e74c3c;
-            text-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+            color: #ff007f;
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
         }
     </style>
 </head>
 <body>
 
+    <canvas id="starCanvas"></canvas>
+    <div class="space-glow"></div>
+
     <h1>TTW - Time to Work</h1>
 
     <div class="timer-container">
         
-        <!-- සඟවන/පෙන්වන Input සෙක්ෂන් එක -->
+        <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: #666; font-size: 18px; margin-bottom: 10px; font-weight: normal; letter-spacing: 1px;">SET TARGET TIME</h2>
+            <h2 style="color: rgba(255,255,255,0.3); font-size: 14px; margin-bottom: 5px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Set Target Time</h2>
             <div class="inputs-section">
-                <input type="number" id="hrs" placeholder="HH" min="0" max="99">
-                <input type="number" id="mins" placeholder="MM" min="0" max="59">
-                <input type="number" id="secs" placeholder="SS" min="0" max="59">
+                <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
+                <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
+                <input type="number" id="secs" placeholder="SS" min="0" max="59" oninput="validity.valid||(value='');">
             </div>
             <div class="controls">
-                <button id="startInitialBtn" onclick="startTimer()">Start Timer</button>
+                <button id="startInitialBtn" onclick="startTimer()" style="max-width: 200px;">Start Timer</button>
             </div>
         </div>
 
-        <!-- ටයිමරය ක්‍රියාත්මක වන විට මතුවන Active සෙක්ෂන් එක -->
+        <!-- ACTIVE MODE -->
         <div id="activeMode" class="fade-element hidden">
             <div class="labels">
                 <span>Hours</span>
@@ -257,11 +283,11 @@
                     <span class="status-value" id="targetStatus">00:00:00</span>
                 </div>
                 <div class="status-row">
-                    <span class="status-label">Total Elapsed Time (ගත වූ කාලය)</span>
+                    <span class="status-label">Total Elapsed Time</span>
                     <span class="status-value" id="elapsedStatus">00:00:00</span>
                 </div>
                 <div class="status-row">
-                    <span class="status-label" style="color: #ef5350;">Total Stop Time (නතර කර සිටි කාලය)</span>
+                    <span class="status-label" style="color: #ff007f;">Total Stop Time</span>
                     <span class="status-value" id="stopStatus">00:00:00</span>
                 </div>
             </div>
@@ -270,27 +296,80 @@
     </div>
 
     <script>
-        let countdown;
-        let stopCountUp;
-        let totalSeconds = 0;
-        let initialSeconds = 0;
-        let totalStopSeconds = 0; 
-        let isRunning = false;
-        let isStopRunning = false; 
+        // --- OPTIMIZED CANVAS STARFIELD ---
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false }); // Performance tweak
+
+        let stars = [];
+        const rgbColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(0,255,204,', 'rgba(255,255,255,'];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars();
+        }
+
+        function initStars() {
+            stars = [];
+            // Screen Size එක අනුව තරු ගණන සකසනවා (Mobile වලදී smooth වෙන්න)
+            const numStars = canvas.width < 600 ? 60 : 120; 
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 1.5 + 0.5,
+                    color: rgbColors[Math.floor(Math.random() * rgbColors.length)],
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.01 + 0.005
+                });
+            }
+        }
+
+        function animateStars() {
+            // Fill background solid first since alpha is false (highly optimized)
+            ctx.fillStyle = '#020208';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < stars.length; i++) {
+                let s = stars[i];
+                s.alpha += s.speed;
+                if (s.alpha > 1 || s.alpha < 0.1) s.speed = -s.speed;
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fillStyle = s.color + Math.max(0.1, s.alpha) + ')';
+                ctx.fill();
+            }
+            requestAnimationFrame(animateStars);
+        }
+
+        // Debounce resize to prevent lag
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(resizeCanvas, 150);
+        });
+
+        resizeCanvas();
+        animateStars();
+
+
+        // --- TIMER CORE LOGIC ---
+        let countdown, stopCountUp;
+        let totalSeconds = 0, initialSeconds = 0, totalStopSeconds = 0; 
+        let isRunning = false, isStopRunning = false; 
 
         const display = document.getElementById('timerDisplay');
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
         const stopStatus = document.getElementById('stopStatus');
-        
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
 
         window.onload = function() {
-            // කලින් දත්ත තිබේ නම් කෙලින්ම Active Mode එක පෙන්වන්න
             if(localStorage.getItem('ttw_remaining')) {
-                totalSeconds = parseInt(localStorage.getItem('ttw_remaining'));
-                initialSeconds = parseInt(localStorage.getItem('ttw_initial'));
+                totalSeconds = parseInt(localStorage.getItem('ttw_remaining')) || 0;
+                initialSeconds = parseInt(localStorage.getItem('ttw_initial')) || 0;
                 totalStopSeconds = parseInt(localStorage.getItem('ttw_stop_seconds')) || 0;
                 
                 switchToActiveMode();
@@ -321,22 +400,20 @@
             localStorage.setItem('ttw_is_stopped', 'false');
 
             if (totalSeconds === 0) {
-                const hrs = parseInt(document.getElementById('hrs').value) || 0;
-                const mins = parseInt(document.getElementById('mins').value) || 0;
-                const secs = parseInt(document.getElementById('secs').value) || 0;
+                const hrs = Math.max(0, parseInt(document.getElementById('hrs').value) || 0);
+                const mins = Math.max(0, Math.min(59, parseInt(document.getElementById('mins').value) || 0));
+                const secs = Math.max(0, Math.min(59, parseInt(document.getElementById('secs').value) || 0));
 
                 totalSeconds = (hrs * 3600) + (mins * 60) + secs;
                 initialSeconds = totalSeconds;
 
                 if (totalSeconds <= 0) {
-                    alert("කරුණාකර වෙලාවක් ඇතුලත් කරන්න!");
+                    alert("කරුණාකර වලංගු කාලයක් ඇතුලත් කරන්න!");
                     return;
                 }
             }
 
-            // Inputs සඟවා ටයිමරය මතු කිරීම
             switchToActiveMode();
-
             isRunning = true;
             localStorage.setItem('ttw_initial', initialSeconds);
             
@@ -384,10 +461,7 @@
             initialSeconds = 0;
             totalStopSeconds = 0;
             
-            localStorage.removeItem('ttw_remaining');
-            localStorage.removeItem('ttw_initial');
-            localStorage.removeItem('ttw_stop_seconds');
-            localStorage.setItem('ttw_is_stopped', 'false');
+            localStorage.clear(); // Clear all app data safely
 
             display.textContent = "00:00:00";
             targetStatus.textContent = "00:00:00";
@@ -398,15 +472,7 @@
             document.getElementById('mins').value = '';
             document.getElementById('secs').value = '';
 
-            // Reset කල පසු නැවත Input Mode එකට මාරු කිරීම
             switchToSetupMode();
-        }
-
-        function updateDisplay(secs) {
-            const h = Math.floor(secs / 3600).toString().padStart(2, '0');
-            const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0');
-            const s = (secs % 60).toString().padStart(2, '0');
-            display.textContent = `${h}:${m}:${s}`;
         }
 
         function formatTime(secs) {
@@ -416,10 +482,13 @@
             return `${h}:${m}:${s}`;
         }
 
+        function updateDisplay(secs) {
+            display.textContent = formatTime(secs);
+        }
+
         function updateStatusPanels() {
             targetStatus.textContent = formatTime(initialSeconds);
-            const elapsed = initialSeconds - totalSeconds;
-            elapsedStatus.textContent = formatTime(elapsed);
+            elapsedStatus.textContent = formatTime(initialSeconds - totalSeconds);
             stopStatus.textContent = formatTime(totalStopSeconds);
         }
     </script>
