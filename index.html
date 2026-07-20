@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTW - Time to Work</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/digital-numbers');
+
+        body {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #f1c40f;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .timer-container {
+            background-color: #000000;
+            border: 3px solid #333;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            text-align: center;
+            position: relative;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #555;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .display {
+            font-family: 'Digital Numbers', sans-serif;
+            font-size: 65px;
+            color: #ffffff;
+            margin: 20px 0;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .inputs-section {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .inputs-section input {
+            width: 60px;
+            padding: 8px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .controls button {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #f1c40f;
+            color: #000;
+            border-color: #f1c40f;
+        }
+
+        .status-panel {
+            margin-top: 25px;
+            background: #111;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #f1c40f;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .status-panel p {
+            margin: 5px 0;
+            color: #aaa;
+        }
+
+        .status-panel span {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TTW - Time to Work</h1>
+
+    <div class="timer-container">
+        <div class="labels">
+            <span>Hours</span>
+            <span>Minutes</span>
+            <span>Seconds</span>
+        </div>
+        
+        <div class="display" id="timerDisplay">00:00:00</div>
+
+        <div class="inputs-section" id="inputFields">
+            <input type="number" id="hrs" placeholder="HH" min="0" max="99">
+            <input type="number" id="mins" placeholder="MM" min="0" max="59">
+            <input type="number" id="secs" placeholder="SS" min="0" max="59">
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" onclick="startTimer()">Start</button>
+            <button id="stopBtn" onclick="stopTimer()">Stop</button>
+            <button id="resetBtn" onclick="resetTimer()">Reset</button>
+        </div>
+
+        <div class="status-panel">
+            <p>Target Time Set: <span id="targetStatus">00:00:00</span></p>
+            <p>Total Elapsed Time (ගත වූ කාලය): <span id="elapsedStatus">00:00:00</span></p>
+        </div>
+    </div>
+
+    <script>
+        let countdown;
+        let totalSeconds = 0;
+        let initialSeconds = 0;
+        let isRunning = false;
+
+        const display = document.getElementById('timerDisplay');
+        const targetStatus = document.getElementById('targetStatus');
+        const elapsedStatus = document.getElementById('elapsedStatus');
+
+        // Load saved state on open
+        window.onload = function() {
+            if(localStorage.getItem('ttw_remaining')) {
+                totalSeconds = parseInt(localStorage.getItem('ttw_remaining'));
+                initialSeconds = parseInt(localStorage.getItem('ttw_initial'));
+                updateDisplay(totalSeconds);
+                updateStatusPanels();
+            }
+        };
+
+        function startTimer() {
+            if (isRunning) return;
+
+            // If starting fresh
+            if (totalSeconds === 0) {
+                const hrs = parseInt(document.getElementById('hrs').value) || 0;
+                const mins = parseInt(document.getElementById('mins').value) || 0;
+                const secs = parseInt(document.getElementById('secs').value) || 0;
+
+                totalSeconds = (hrs * 3600) + (mins * 60) + secs;
+                initialSeconds = totalSeconds;
+
+                if (totalSeconds <= 0) {
+                    alert("කරුණාකර වෙලාවක් ඇතුලත් කරන්න!");
+                    return;
+                }
+            }
+
+            isRunning = true;
+            localStorage.setItem('ttw_initial', initialSeconds);
+            
+            countdown = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(countdown);
+                    isRunning = false;
+                    alert("Time's Up!");
+                    resetTimer();
+                } else {
+                    totalSeconds--;
+                    localStorage.setItem('ttw_remaining', totalSeconds);
+                    updateDisplay(totalSeconds);
+                    updateStatusPanels();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(countdown);
+            isRunning = false;
+            updateStatusPanels();
+        }
+
+        function resetTimer() {
+            clearInterval(countdown);
+            isRunning = false;
+            totalSeconds = 0;
+            initialSeconds = 0;
+            localStorage.removeItem('ttw_remaining');
+            localStorage.removeItem('ttw_initial');
+            display.textContent = "00:00:00";
+            targetStatus.textContent = "00:00:00";
+            elapsedStatus.textContent = "00:00:00";
+            document.getElementById('hrs').value = '';
+            document.getElementById('mins').value = '';
+            document.getElementById('secs').value = '';
+        }
+
+        function updateDisplay(secs) {
+            const h = Math.floor(secs / 3600).toString().padStart(2, '0');
+            const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0');
+            const s = (secs % 60).toString().padStart(2, '0');
+            display.textContent = `${h}:${m}:${s}`;
+        }
+
+        function updateStatusPanels() {
+            // Target
+            const th = Math.floor(initialSeconds / 3600).toString().padStart(2, '0');
+            const tm = Math.floor((initialSeconds % 3600) / 60).toString().padStart(2, '0');
+            const ts = (initialSeconds % 60).toString().padStart(2, '0');
+            targetStatus.textContent = `${th}:${tm}:${ts}`;
+
+            // Elapsed Time (ගත වූ කාලය = මුල් කාලය - ඉතිරි කාලය)
+            const elapsed = initialSeconds - totalSeconds;
+            const eh = Math.floor(elapsed / 3600).toString().padStart(2, '0');
+            const em = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
+            const es = (elapsed % 60).toString().padStart(2, '0');
+            elapsedStatus.textContent = `${eh}:${em}:${es}`;
+        }
+    </script>
+</body>
+</html>
