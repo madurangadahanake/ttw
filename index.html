@@ -7,8 +7,13 @@
     <style>
         @import url('https://fonts.cdnfonts.com/css/digital-numbers');
 
+        /* Dynamic & Premium Background Decoration */
         body {
-            background-color: #0b0b0b;
+            background-color: #050505;
+            background-image: 
+                linear-gradient(rgba(241, 196, 15, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(241, 196, 15, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
@@ -18,26 +23,63 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Glowing background blobs */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(241, 196, 15, 0.08) 0%, transparent 70%);
+            top: 10%;
+            left: 15%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(231, 76, 60, 0.05) 0%, transparent 70%);
+            bottom: 10%;
+            right: 15%;
+            z-index: -1;
+            pointer-events: none;
         }
 
         h1 {
             color: #f1c40f;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             margin-bottom: 25px;
-            font-size: 32px;
+            font-size: 36px;
+            text-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
         }
 
-        /* පුළුල් තිර සඳහා කන්ටේනරය විශාල කරන ලදී */
         .timer-container {
-            background-color: #000000;
-            border: 3px solid #333;
+            background-color: rgba(0, 0, 0, 0.85);
+            border: 2px solid #222;
             border-radius: 25px;
             padding: 40px 50px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 30px rgba(241, 196, 15, 0.03);
             text-align: center;
-            position: relative;
             max-width: 750px;
             width: 95%;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Animation smooth වෙන්න දාපු කොටස */
+        .fade-element {
+            transition: all 0.4s ease-in-out;
+        }
+
+        .hidden {
+            display: none !important;
+            opacity: 0;
         }
 
         .labels {
@@ -52,47 +94,50 @@
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: 85px; /* ප්‍රධාන ටයිමරය විශාල කරන ලදී */
+            font-size: 85px;
             color: #ffffff;
             margin: 15px 0 30px 0;
             letter-spacing: 6px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
         }
 
         .inputs-section {
-            margin: 25px 0;
+            margin: 30px 0;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .inputs-section input {
-            width: 80px;
-            padding: 12px;
-            background: #151515;
-            border: 2px solid #444;
+            width: 85px;
+            padding: 15px;
+            background: #111;
+            border: 2px solid #333;
             color: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
+            transition: all 0.3s;
         }
 
         .inputs-section input:focus {
             border-color: #f1c40f;
+            background: #151515;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.2);
             outline: none;
         }
 
         .controls button {
-            background-color: #181818;
+            background-color: #151515;
             color: #fff;
-            border: 2px solid #555;
-            padding: 12px 40px;
+            border: 2px solid #444;
+            padding: 14px 45px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             margin: 8px;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: all 0.3s;
         }
 
@@ -100,13 +145,26 @@
             background-color: #f1c40f;
             color: #000;
             border-color: #f1c40f;
-            box-shadow: 0 0 10px rgba(241, 196, 15, 0.4);
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
         }
 
-        /* පහළ පැනලය වඩාත් ඉඩකඩ ඇතිව සහ විශාලව සකස් කරන ලදී */
+        #stopBtn:hover {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.4);
+        }
+
+        #resetBtn:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(127, 140, 141, 0.4);
+        }
+
         .status-panel {
             margin-top: 35px;
-            background: #080808;
+            background: rgba(10, 10, 10, 0.9);
             padding: 25px;
             border-radius: 15px;
             border-left: 6px solid #f1c40f;
@@ -114,6 +172,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         .status-row {
@@ -135,7 +194,6 @@
             font-weight: 500;
         }
 
-        /* දත්ත සියල්ල ඩිජිටල් ෆොන්ට් එකෙන් ලොකුවට */
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
             font-size: 28px;
@@ -144,7 +202,8 @@
         }
 
         .status-row:nth-child(2) .status-value {
-            color: #2ecc71; /* ගතවූ කාලය කොළ පාටින් */
+            color: #2ecc71;
+            text-shadow: 0 0 8px rgba(46, 204, 113, 0.2);
         }
 
         .status-row:nth-child(3) {
@@ -152,8 +211,8 @@
         }
         
         .status-row:nth-child(3) .status-value {
-            color: #e74c3c; /* නැවතුණු කාලය රතු පාටින් */
-            text-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+            text-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
         }
     </style>
 </head>
@@ -162,41 +221,52 @@
     <h1>TTW - Time to Work</h1>
 
     <div class="timer-container">
-        <div class="labels">
-            <span>Hours</span>
-            <span>Minutes</span>
-            <span>Seconds</span>
-        </div>
         
-        <div class="display" id="timerDisplay">00:00:00</div>
-
-        <div class="inputs-section" id="inputFields">
-            <input type="number" id="hrs" placeholder="HH" min="0" max="99">
-            <input type="number" id="mins" placeholder="MM" min="0" max="59">
-            <input type="number" id="secs" placeholder="SS" min="0" max="59">
-        </div>
-
-        <div class="controls">
-            <button id="startBtn" onclick="startTimer()">Start</button>
-            <button id="stopBtn" onclick="stopTimer()">Stop</button>
-            <button id="resetBtn" onclick="resetTimer()">Reset</button>
-        </div>
-
-        <!-- අලුත් ලොකු ස්ටේටස් පැනලය -->
-        <div class="status-panel">
-            <div class="status-row">
-                <span class="status-label">Target Time Set</span>
-                <span class="status-value" id="targetStatus">00:00:00</span>
+        <!-- සඟවන/පෙන්වන Input සෙක්ෂන් එක -->
+        <div id="setupMode" class="fade-element">
+            <h2 style="color: #666; font-size: 18px; margin-bottom: 10px; font-weight: normal; letter-spacing: 1px;">SET TARGET TIME</h2>
+            <div class="inputs-section">
+                <input type="number" id="hrs" placeholder="HH" min="0" max="99">
+                <input type="number" id="mins" placeholder="MM" min="0" max="59">
+                <input type="number" id="secs" placeholder="SS" min="0" max="59">
             </div>
-            <div class="status-row">
-                <span class="status-label">Total Elapsed Time (ගත වූ කාලය)</span>
-                <span class="status-value" id="elapsedStatus">00:00:00</span>
-            </div>
-            <div class="status-row">
-                <span class="status-label" style="color: #ef5350;">Total Stop Time (නතර කර සිටි කාලය)</span>
-                <span class="status-value" id="stopStatus">00:00:00</span>
+            <div class="controls">
+                <button id="startInitialBtn" onclick="startTimer()">Start Timer</button>
             </div>
         </div>
+
+        <!-- ටයිමරය ක්‍රියාත්මක වන විට මතුවන Active සෙක්ෂන් එක -->
+        <div id="activeMode" class="fade-element hidden">
+            <div class="labels">
+                <span>Hours</span>
+                <span>Minutes</span>
+                <span>Seconds</span>
+            </div>
+            
+            <div class="display" id="timerDisplay">00:00:00</div>
+
+            <div class="controls">
+                <button id="startBtn" onclick="startTimer()">Start</button>
+                <button id="stopBtn" onclick="stopTimer()">Stop</button>
+                <button id="resetBtn" onclick="resetTimer()">Reset</button>
+            </div>
+
+            <div class="status-panel">
+                <div class="status-row">
+                    <span class="status-label">Target Time Set</span>
+                    <span class="status-value" id="targetStatus">00:00:00</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">Total Elapsed Time (ගත වූ කාලය)</span>
+                    <span class="status-value" id="elapsedStatus">00:00:00</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label" style="color: #ef5350;">Total Stop Time (නතර කර සිටි කාලය)</span>
+                    <span class="status-value" id="stopStatus">00:00:00</span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -212,13 +282,18 @@
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
         const stopStatus = document.getElementById('stopStatus');
+        
+        const setupMode = document.getElementById('setupMode');
+        const activeMode = document.getElementById('activeMode');
 
         window.onload = function() {
+            // කලින් දත්ත තිබේ නම් කෙලින්ම Active Mode එක පෙන්වන්න
             if(localStorage.getItem('ttw_remaining')) {
                 totalSeconds = parseInt(localStorage.getItem('ttw_remaining'));
                 initialSeconds = parseInt(localStorage.getItem('ttw_initial'));
                 totalStopSeconds = parseInt(localStorage.getItem('ttw_stop_seconds')) || 0;
                 
+                switchToActiveMode();
                 updateDisplay(totalSeconds);
                 updateStatusPanels();
 
@@ -227,6 +302,16 @@
                 }
             }
         };
+
+        function switchToActiveMode() {
+            setupMode.classList.add('hidden');
+            activeMode.classList.remove('hidden');
+        }
+
+        function switchToSetupMode() {
+            activeMode.classList.add('hidden');
+            setupMode.classList.remove('hidden');
+        }
 
         function startTimer() {
             if (isRunning) return;
@@ -248,6 +333,9 @@
                     return;
                 }
             }
+
+            // Inputs සඟවා ටයිමරය මතු කිරීම
+            switchToActiveMode();
 
             isRunning = true;
             localStorage.setItem('ttw_initial', initialSeconds);
@@ -309,6 +397,9 @@
             document.getElementById('hrs').value = '';
             document.getElementById('mins').value = '';
             document.getElementById('secs').value = '';
+
+            // Reset කල පසු නැවත Input Mode එකට මාරු කිරීම
+            switchToSetupMode();
         }
 
         function updateDisplay(secs) {
