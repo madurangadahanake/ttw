@@ -110,6 +110,11 @@
             color: #fff;
             font-weight: bold;
         }
+
+        /* Stop Time එක කැපී පෙනෙන්න රතු/තැඹිලි පාටක් භාවිතා කර ඇත */
+        .stop-highlight {
+            color: #e74c3c !important;
+        }
     </style>
 </head>
 <body>
@@ -140,31 +145,48 @@
         <div class="status-panel">
             <p>Target Time Set: <span id="targetStatus">00:00:00</span></p>
             <p>Total Elapsed Time (ගත වූ කාලය): <span id="elapsedStatus">00:00:00</span></p>
+            <p>Total Stop Time (නතර කර සිටි කාලය): <span id="stopStatus" class="stop-highlight">00:00:00</span></p>
         </div>
     </div>
 
     <script>
         let countdown;
+        let stopCountUp;
         let totalSeconds = 0;
         let initialSeconds = 0;
+        let totalStopSeconds = 0; // නතර කර සිටි මුළු තත්පර ගණන
         let isRunning = false;
+        let isStopRunning = false; // Stop ටයිමරය ක්‍රියාත්මකදැයි බැලීමට
 
         const display = document.getElementById('timerDisplay');
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
+        const stopStatus = document.getElementById('stopStatus');
 
         // Load saved state on open
         window.onload = function() {
             if(localStorage.getItem('ttw_remaining')) {
                 totalSeconds = parseInt(localStorage.getItem('ttw_remaining'));
                 initialSeconds = parseInt(localStorage.getItem('ttw_initial'));
+                totalStopSeconds = parseInt(localStorage.getItem('ttw_stop_seconds')) || 0;
+                
                 updateDisplay(totalSeconds);
                 updateStatusPanels();
+
+                // කලින් පේජ් එක වහනකොට ස්ටොප් කරල තිබ්බනම්, ආයෙ පේජ් එක ඇරෙද්දි ස්ටොප් ටයිමර් එක දුවන්න ගන්නවා
+                if(localStorage.getItem('ttw_is_stopped') === 'true') {
+                    runStopTimer();
+                }
             }
         };
 
         function startTimer() {
             if (isRunning) return;
+            
+            // Stop ටයිමරය දුවනවා නම් එය නවත්වන්න
+            clearInterval(stopCountUp);
+            isStopRunning = false;
+            localStorage.setItem('ttw_is_stopped', 'false');
 
             // If starting fresh
             if (totalSeconds === 0) {
@@ -200,21 +222,47 @@
         }
 
         function stopTimer() {
-            clearInterval(countdown);
-            isRunning = false;
-            updateStatusPanels();
+            // ප්‍රධාන ටයිමරය දුවනවා නම් පමණක් හෝ දැනටමත් ස්ටොප් ටයිමර් එක ක්‍රියාත්මක නැත්නම්
+            if (isRunning || (!isRunning && totalSeconds > 0 && !isStopRunning)) {
+                clearInterval(countdown);
+                isRunning = false;
+                
+                // Stop ටයිමරය ආරම්භ කිරීම
+                runStopTimer();
+            }
+        }
+
+        function runStopTimer() {
+            if(isStopRunning) return;
+            isStopRunning = true;
+            localStorage.setItem('ttw_is_stopped', 'true');
+
+            stopCountUp = setInterval(() => {
+                totalStopSeconds++;
+                localStorage.setItem('ttw_stop_seconds', totalStopSeconds);
+                updateStatusPanels();
+            }, 1000);
         }
 
         function resetTimer() {
             clearInterval(countdown);
+            clearInterval(stopCountUp);
             isRunning = false;
+            isStopRunning = false;
             totalSeconds = 0;
             initialSeconds = 0;
+            totalStopSeconds = 0;
+            
             localStorage.removeItem('ttw_remaining');
             localStorage.removeItem('ttw_initial');
+            localStorage.removeItem('ttw_stop_seconds');
+            localStorage.setItem('ttw_is_stopped', 'false');
+
             display.textContent = "00:00:00";
             targetStatus.textContent = "00:00:00";
             elapsedStatus.textContent = "00:00:00";
+            stopStatus.textContent = "00:00:00";
+            
             document.getElementById('hrs').value = '';
             document.getElementById('mins').value = '';
             document.getElementById('secs').value = '';
@@ -227,19 +275,23 @@
             display.textContent = `${h}:${m}:${s}`;
         }
 
-        function updateStatusPanels() {
-            // Target
-            const th = Math.floor(initialSeconds / 3600).toString().padStart(2, '0');
-            const tm = Math.floor((initialSeconds % 3600) / 60).toString().padStart(2, '0');
-            const ts = (initialSeconds % 60).toString().padStart(2, '0');
-            targetStatus.textContent = `${th}:${tm}:${ts}`;
+        function formatTime(secs) {
+            const h = Math.floor(secs / 3600).toString().padStart(2, '0');
+            const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0');
+            const s = (secs % 60).toString().padStart(2, '0');
+            return `${h}:${m}:${s}`;
+        }
 
-            // Elapsed Time (ගත වූ කාලය = මුල් කාලය - ඉතිරි කාලය)
+        function updateStatusPanels() {
+            // Target Time
+            targetStatus.textContent = formatTime(initialSeconds);
+
+            // Elapsed Time
             const elapsed = initialSeconds - totalSeconds;
-            const eh = Math.floor(elapsed / 3600).toString().padStart(2, '0');
-            const em = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
-            const es = (elapsed % 60).toString().padStart(2, '0');
-            elapsedStatus.textContent = `${eh}:${em}:${es}`;
+            elapsedStatus.textContent = formatTime(elapsed);
+
+            // Total Stop Time
+            stopStatus.textContent = formatTime(totalStopSeconds);
         }
     </script>
 </body>
