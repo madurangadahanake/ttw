@@ -22,7 +22,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 20px;
             overflow-x: hidden;
             position: relative;
         }
@@ -53,37 +53,38 @@
             position: absolute;
             top: 20px;
             width: 100%;
-            max-width: 750px;
+            max-width: 1400px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 10px;
+            padding: 0 20px;
         }
 
         .top-bar-right {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .local-clock {
-            font-size: 14px;
+            font-size: 15px;
             letter-spacing: 1px;
-            color: rgba(0, 240, 255, 0.8);
+            color: rgba(0, 240, 255, 0.9);
             background: rgba(255, 255, 255, 0.03);
-            padding: 6px 14px;
+            padding: 8px 18px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 240, 255, 0.2);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            backdrop-filter: blur(5px);
         }
 
         .icon-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .icon-btn:hover {
@@ -92,10 +93,10 @@
         }
 
         h1 {
-            font-size: clamp(28px, 5vw, 38px);
-            letter-spacing: 4px;
-            margin-top: 40px;
-            margin-bottom: 20px;
+            font-size: clamp(32px, 4vw, 48px);
+            letter-spacing: 6px;
+            margin-top: 50px;
+            margin-bottom: 25px;
             text-transform: uppercase;
             font-weight: 800;
             text-align: center;
@@ -104,8 +105,7 @@
             animation: rgbText 6s linear infinite;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.2));
-            will-change: background-position;
+            filter: drop-shadow(0 0 12px rgba(0, 240, 255, 0.3));
         }
 
         @keyframes rgbText {
@@ -113,15 +113,15 @@
             100% { background-position: 100% 50%; }
         }
 
+        /* --- FULL WIDTH RESPONSIVE CONTAINER --- */
         .timer-container {
             background: rgba(10, 10, 20, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: clamp(20px, 4vw, 35px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            max-width: 750px;
-            width: 100%;
+            border-radius: 28px;
+            padding: clamp(25px, 4vw, 45px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            max-width: 1400px;
+            width: 95%;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             position: relative;
@@ -131,8 +131,8 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 15%;
-            right: 15%;
+            left: 10%;
+            right: 10%;
             height: 2px;
             background: linear-gradient(90deg, transparent, #00f0ff, #ff007f, transparent);
         }
@@ -146,21 +146,22 @@
             opacity: 0;
         }
 
+        /* --- SETUP MODE --- */
         .presets-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 12px;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .preset-btn {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ddd;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -171,13 +172,70 @@
             color: #00f0ff;
         }
 
-        /* --- STYLE 1: LINEAR PROGRESS BAR --- */
+        .inputs-section {
+            margin: 20px 0 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .inputs-section input {
+            width: clamp(80px, 12vw, 110px);
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-radius: 12px;
+            text-align: center;
+            font-size: clamp(22px, 3vw, 32px);
+            font-weight: bold;
+        }
+
+        .inputs-section input:focus {
+            border-color: #00f0ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            outline: none;
+        }
+
+        /* --- ACTIVE DASHBOARD LAYOUT (WIDE SCREEN DUAL COLUMN) --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* Split into 2 columns on wide screens */
+        @media (min-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        .timer-visual-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .stats-control-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* LINE PROGRESS */
         .progress-bar-container {
             width: 100%;
-            height: 10px;
+            height: 12px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -188,7 +246,7 @@
             background: linear-gradient(90deg, #00f0ff, #00ffcc);
             box-shadow: 0 0 12px #00f0ff;
             border-radius: 10px;
-            transition: width 0.3s linear, background 0.5s ease;
+            transition: width 0.3s linear;
         }
 
         .progress-bar-fill.overtime {
@@ -197,14 +255,13 @@
             width: 100% !important;
         }
 
-        /* --- STYLE 2: FULL WIDE CIRCULAR RING --- */
+        /* CIRCULAR RING */
         .ring-wrapper {
             position: relative;
             width: 100%;
-            max-width: 480px;
-            height: auto;
+            max-width: 520px;
             aspect-ratio: 1 / 1;
-            margin: 0 auto 15px auto;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -230,13 +287,13 @@
             stroke: #00f0ff;
             stroke-width: 6;
             stroke-linecap: round;
-            filter: drop-shadow(0 0 10px #00f0ff);
-            transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease, filter 0.5s ease;
+            filter: drop-shadow(0 0 12px #00f0ff);
+            transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease;
         }
 
         .ring-circle.overtime {
             stroke: #ff007f;
-            filter: drop-shadow(0 0 10px #ff007f);
+            filter: drop-shadow(0 0 12px #ff007f);
         }
 
         .ring-content {
@@ -253,9 +310,9 @@
         .labels {
             display: flex;
             justify-content: space-around;
-            width: 75%;
-            color: rgba(255, 255, 255, 0.35);
-            font-size: clamp(10px, 2vw, 13px);
+            width: 80%;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: clamp(11px, 1.5vw, 14px);
             text-transform: uppercase;
             letter-spacing: 3px;
             margin-bottom: 5px;
@@ -263,98 +320,62 @@
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(32px, 8.5vw, 56px);
+            font-size: clamp(36px, 6vw, 64px);
             color: #ffffff;
             letter-spacing: 2px;
-            text-shadow: 0 0 18px rgba(255, 255, 255, 0.3);
-            transition: color 0.5s ease, text-shadow 0.5s ease;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
             white-space: nowrap;
         }
 
         .style-line .display {
-            font-size: clamp(45px, 11vw, 80px);
+            font-size: clamp(48px, 8vw, 90px);
             margin-bottom: 25px;
-        }
-
-        .style-line .labels {
-            width: 100%;
-            font-size: clamp(11px, 2.5vw, 14px);
+            text-align: center;
         }
 
         .display.overtime {
             color: #ff007f;
-            text-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
-        }
-
-        .inputs-section {
-            margin: 15px 0 25px 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .inputs-section input {
-            width: clamp(70px, 18vw, 90px);
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border-radius: 10px;
-            text-align: center;
-            font-size: clamp(18px, 5vw, 24px);
-            font-weight: bold;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .inputs-section input:focus {
-            border-color: #00f0ff;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-            outline: none;
+            text-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 15px;
+            width: 100%;
         }
 
         .controls button {
             background-color: rgba(255, 255, 255, 0.03);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px 28px;
-            font-size: clamp(14px, 4vw, 16px);
+            padding: 14px 28px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 12px;
+            border-radius: 14px;
             transition: all 0.2s ease;
             flex: 1;
-            min-width: 100px;
-            max-width: 160px;
         }
 
         .controls button:hover {
             background-color: rgba(0, 240, 255, 0.15);
             color: #00f0ff;
             border-color: #00f0ff;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
 
         #stopBtn:hover {
             background-color: rgba(255, 0, 127, 0.15);
             border-color: #ff007f;
             color: #ff007f;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
         }
 
-        /* --- SEPARATE GRID BOXES FOR STATUS STATS --- */
-        .status-grid {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        /* --- DASHBOARD STAT CARDS --- */
+        .status-cards-vertical {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
             width: 100%;
         }
@@ -362,12 +383,11 @@
         .status-card {
             background: rgba(5, 5, 12, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 15px 12px;
-            border-radius: 16px;
-            text-align: center;
+            padding: 18px 20px;
+            border-radius: 18px;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
@@ -376,10 +396,10 @@
         .status-card::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
             background: rgba(255, 255, 255, 0.1);
         }
 
@@ -390,22 +410,22 @@
 
         .status-label {
             color: rgba(255, 255, 255, 0.5);
-            font-size: 11px;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(16px, 3.5vw, 22px);
+            font-size: clamp(20px, 2.2vw, 28px);
             color: #ffffff;
             letter-spacing: 1px;
         }
 
         .card-target .status-value { color: #ffffff; }
-        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 10px rgba(0, 255, 204, 0.3); }
-        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 10px rgba(255, 170, 0, 0.3); }
-        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
+        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 12px rgba(0, 255, 204, 0.3); }
+        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 12px rgba(255, 170, 0, 0.3); }
+        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 12px rgba(255, 0, 127, 0.4); }
 
     </style>
 </head>
@@ -428,7 +448,7 @@
         
         <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: rgba(255,255,255,0.4); font-size: 12px; margin-bottom: 12px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Quick Presets</h2>
+            <h2 style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 15px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Quick Presets</h2>
             
             <div class="presets-grid">
                 <button class="preset-btn" onclick="setPreset(0, 15, 0)">15M</button>
@@ -440,77 +460,84 @@
                 <button class="preset-btn" onclick="setPreset(6, 0, 0)">6H</button>
             </div>
 
-            <h2 style="color: rgba(255,255,255,0.3); font-size: 11px; margin-bottom: 8px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Or Set Custom Target Time</h2>
+            <h2 style="color: rgba(255,255,255,0.3); font-size: 12px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Or Set Custom Target Time</h2>
             <div class="inputs-section">
                 <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
                 <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
                 <input type="number" id="secs" placeholder="SS" min="0" max="59" oninput="validity.valid||(value='');">
             </div>
-            <div class="controls">
-                <button id="startInitialBtn" onclick="startTimer()" style="max-width: 220px;">Start Timer</button>
+            <div class="controls" style="max-width: 300px; margin: 0 auto;">
+                <button id="startInitialBtn" onclick="startTimer()">Start Timer</button>
             </div>
         </div>
 
-        <!-- ACTIVE MODE -->
+        <!-- ACTIVE DASHBOARD MODE -->
         <div id="activeMode" class="fade-element hidden">
-            
-            <!-- VIEW 1: LINEAR PROGRESS BAR -->
-            <div id="lineView" class="hidden">
-                <div class="progress-bar-container">
-                    <div class="progress-bar-fill" id="progressBar"></div>
-                </div>
-                <div class="labels">
-                    <span>Hours</span>
-                    <span>Minutes</span>
-                    <span>Seconds</span>
-                </div>
-                <div class="display" id="timerDisplayLine">00:00:00</div>
-            </div>
-
-            <!-- VIEW 2: CIRCULAR RING (AUTO FULL-FIT) -->
-            <div id="ringView">
-                <div class="ring-wrapper">
-                    <svg class="ring-svg" viewBox="0 0 200 200">
-                        <circle class="ring-bg" cx="100" cy="100" r="92"></circle>
-                        <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="92" stroke-dasharray="578.05" stroke-dashoffset="0"></circle>
-                    </svg>
-                    <div class="ring-content">
-                        <div class="labels">
-                            <span>HRS</span>
-                            <span>MIN</span>
-                            <span>SEC</span>
+            <div class="dashboard-grid">
+                
+                <!-- LEFT SIDE: TIMER VISUALIZATION -->
+                <div class="timer-visual-side">
+                    <!-- LINE VIEW -->
+                    <div id="lineView" class="hidden" style="width: 100%;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="progressBar"></div>
                         </div>
-                        <div class="display" id="timerDisplayRing">00:00:00</div>
+                        <div class="labels" style="width: 100%;">
+                            <span>Hours</span>
+                            <span>Minutes</span>
+                            <span>Seconds</span>
+                        </div>
+                        <div class="display" id="timerDisplayLine">00:00:00</div>
+                    </div>
+
+                    <!-- RING VIEW -->
+                    <div id="ringView" style="width: 100%;">
+                        <div class="ring-wrapper">
+                            <svg class="ring-svg" viewBox="0 0 200 200">
+                                <circle class="ring-bg" cx="100" cy="100" r="92"></circle>
+                                <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="92" stroke-dasharray="578.05" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <div class="ring-content">
+                                <div class="labels">
+                                    <span>HRS</span>
+                                    <span>MIN</span>
+                                    <span>SEC</span>
+                                </div>
+                                <div class="display" id="timerDisplayRing">00:00:00</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="controls">
-                <button id="startBtn" onclick="startTimer()">Start</button>
-                <button id="stopBtn" onclick="togglePauseResume()">Pause</button>
-                <button id="resetBtn" onclick="resetTimer()">Reset</button>
-            </div>
+                <!-- RIGHT SIDE: STATS CARDS & CONTROLS -->
+                <div class="stats-control-side">
+                    <div class="status-cards-vertical">
+                        <div class="status-card card-target">
+                            <span class="status-label">Target Time</span>
+                            <span class="status-value" id="targetStatus">00:00:00</span>
+                        </div>
+                        <div class="status-card card-elapsed">
+                            <span class="status-label">Total Elapsed</span>
+                            <span class="status-value" id="elapsedStatus">00:00:00</span>
+                        </div>
+                        <div class="status-card card-stopped">
+                            <span class="status-label">Total Paused</span>
+                            <span class="status-value" id="stopStatus">00:00:00</span>
+                        </div>
+                        <div class="status-card card-overtime hidden" id="overtimeCard">
+                            <span class="status-label">Overtime</span>
+                            <span class="status-value" id="overtimeStatus">+00:00:00</span>
+                        </div>
+                    </div>
 
-            <!-- SEPARATE INDIVIDUAL STATS CARDS -->
-            <div class="status-grid">
-                <div class="status-card card-target">
-                    <span class="status-label">Target Time</span>
-                    <span class="status-value" id="targetStatus">00:00:00</span>
+                    <div class="controls">
+                        <button id="startBtn" onclick="startTimer()">Start</button>
+                        <button id="stopBtn" onclick="togglePauseResume()">Pause</button>
+                        <button id="resetBtn" onclick="resetTimer()">Reset</button>
+                    </div>
                 </div>
-                <div class="status-card card-elapsed">
-                    <span class="status-label">Total Elapsed</span>
-                    <span class="status-value" id="elapsedStatus">00:00:00</span>
-                </div>
-                <div class="status-card card-stopped">
-                    <span class="status-label">Total Paused</span>
-                    <span class="status-value" id="stopStatus">00:00:00</span>
-                </div>
-                <div class="status-card card-overtime hidden" id="overtimeCard">
-                    <span class="status-label">Overtime</span>
-                    <span class="status-value" id="overtimeStatus">+00:00:00</span>
-                </div>
-            </div>
 
+            </div>
         </div>
 
     </div>
@@ -545,7 +572,7 @@
 
         function initStars() {
             stars = [];
-            const numStars = canvas.width < 600 ? 60 : 120; 
+            const numStars = canvas.width < 600 ? 60 : 130; 
             for (let i = 0; i < numStars; i++) {
                 stars.push({
                     x: Math.random() * canvas.width,
@@ -577,7 +604,7 @@
         resizeCanvas();
         animateStars();
 
-        // STYLE TOGGLE SYSTEM (Ring / Line)
+        // STYLE TOGGLE SYSTEM
         let currentStyle = localStorage.getItem('ttw_style') || 'ring'; 
         const lineView = document.getElementById('lineView');
         const ringView = document.getElementById('ringView');
@@ -605,7 +632,7 @@
             updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
         }
 
-        // TIMER LOGIC & CALCULATIONS
+        // TIMER ENGINE
         let mainTimer, stopCountUp;
         let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
         let isRunning = false, isStopRunning = false, isOvertime = false; 
@@ -620,7 +647,7 @@
         const stopBtn = document.getElementById('stopBtn');
         const progressBar = document.getElementById('progressBar');
         const ringCircle = document.getElementById('ringCircle');
-        const ringCircumference = 2 * Math.PI * 92; // ~578.05
+        const ringCircumference = 2 * Math.PI * 92;
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
@@ -797,7 +824,7 @@
         }
 
         function formatTime(secs) {
-            secs = Math.max(0, secs); // Fixes negative values bug
+            secs = Math.max(0, secs);
             const h = Math.floor(secs / 3600).toString().padStart(2, '0');
             const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0');
             const s = (secs % 60).toString().padStart(2, '0');
@@ -822,11 +849,8 @@
 
         function updateStatusPanels() {
             targetStatus.textContent = formatTime(initialSeconds);
-            
-            // Correct Elapsed Calculation (Prevents minus bug)
             const elapsed = Math.max(0, (initialSeconds - currentSeconds) + overtimeSeconds);
             elapsedStatus.textContent = formatTime(elapsed);
-            
             stopStatus.textContent = formatTime(totalStopSeconds);
             if (isOvertime) overtimeStatus.textContent = "+" + formatTime(overtimeSeconds);
         }
