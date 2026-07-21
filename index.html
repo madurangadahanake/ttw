@@ -113,7 +113,6 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* --- FULL WIDTH RESPONSIVE CONTAINER --- */
         .timer-container {
             background: rgba(10, 10, 20, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -198,15 +197,14 @@
             outline: none;
         }
 
-        /* --- ACTIVE DASHBOARD LAYOUT (WIDE SCREEN DUAL COLUMN) --- */
+        /* --- DASHBOARD LAYOUT --- */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 30px;
+            gap: 35px;
             align-items: center;
         }
 
-        /* Split into 2 columns on wide screens */
         @media (min-width: 900px) {
             .dashboard-grid {
                 grid-template-columns: 1.2fr 0.8fr;
@@ -225,7 +223,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 20px;
+            gap: 24px;
             width: 100%;
         }
 
@@ -338,59 +336,31 @@
             text-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
         }
 
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .controls button {
-            background-color: rgba(255, 255, 255, 0.03);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 14px;
-            transition: all 0.2s ease;
-            flex: 1;
-        }
-
-        .controls button:hover {
-            background-color: rgba(0, 240, 255, 0.15);
-            color: #00f0ff;
-            border-color: #00f0ff;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-        }
-
-        #stopBtn:hover {
-            background-color: rgba(255, 0, 127, 0.15);
-            border-color: #ff007f;
-            color: #ff007f;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
-        }
-
-        /* --- DASHBOARD STAT CARDS --- */
+        /* --- UPDATED MODERN STATS CARDS --- */
         .status-cards-vertical {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 16px;
             width: 100%;
         }
 
         .status-card {
-            background: rgba(5, 5, 12, 0.7);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 18px 20px;
+            padding: 16px 22px;
             border-radius: 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-2px);
         }
 
         .status-card::before {
@@ -399,33 +369,101 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 5px;
+            border-radius: 4px 0 0 4px;
         }
 
-        .status-card.card-target::before { background: #00f0ff; }
-        .status-card.card-elapsed::before { background: #00ffcc; }
-        .status-card.card-stopped::before { background: #ffaa00; }
-        .status-card.card-overtime::before { background: #ff007f; }
+        .card-target::before { background: #00f0ff; box-shadow: 0 0 10px #00f0ff; }
+        .card-elapsed::before { background: #00ffcc; box-shadow: 0 0 10px #00ffcc; }
+        .card-stopped::before { background: #ffaa00; box-shadow: 0 0 10px #ffaa00; }
+        .card-overtime::before { background: #ff007f; box-shadow: 0 0 10px #ff007f; }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-icon {
+            font-size: 18px;
+            opacity: 0.8;
+        }
 
         .status-label {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
         }
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(20px, 2.2vw, 28px);
+            font-size: clamp(20px, 2.2vw, 26px);
             color: #ffffff;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        .card-target .status-value { color: #ffffff; }
-        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 12px rgba(0, 255, 204, 0.3); }
-        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 12px rgba(255, 170, 0, 0.3); }
-        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 12px rgba(255, 0, 127, 0.4); }
+        .card-target .status-value { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
+        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 12px rgba(0, 255, 204, 0.4); }
+        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 12px rgba(255, 170, 0, 0.4); }
+        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 12px rgba(255, 0, 127, 0.5); }
+
+        /* --- UPDATED MODERN CONTROLS --- */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            width: 100%;
+        }
+
+        .controls button {
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 14px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        #startBtn {
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+        #startBtn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            color: #00f0ff;
+            border-color: #00f0ff;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+        }
+
+        #stopBtn {
+            border-color: rgba(255, 170, 0, 0.3);
+        }
+        #stopBtn:hover {
+            background: rgba(255, 170, 0, 0.15);
+            color: #ffaa00;
+            border-color: #ffaa00;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.35);
+        }
+
+        #resetBtn {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        #resetBtn:hover {
+            background: rgba(255, 0, 127, 0.15);
+            color: #ff007f;
+            border-color: #ff007f;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+        }
 
     </style>
 </head>
@@ -509,31 +547,46 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE: STATS CARDS & CONTROLS -->
+                <!-- RIGHT SIDE: ENHANCED STATS CARDS & CONTROLS -->
                 <div class="stats-control-side">
                     <div class="status-cards-vertical">
                         <div class="status-card card-target">
-                            <span class="status-label">Target Time</span>
-                            <span class="status-value" id="targetStatus">00:00:00</span>
+                            <div class="status-info">
+                                <span class="status-icon">🎯</span>
+                                <span class="status-label">Target Time</span>
+                            </div>
+                            <span class="status-value" id="targetStatus">00:15:00</span>
                         </div>
+                        
                         <div class="status-card card-elapsed">
-                            <span class="status-label">Total Elapsed</span>
+                            <div class="status-info">
+                                <span class="status-icon">⏱️</span>
+                                <span class="status-label">Total Elapsed</span>
+                            </div>
                             <span class="status-value" id="elapsedStatus">00:00:00</span>
                         </div>
+                        
                         <div class="status-card card-stopped">
-                            <span class="status-label">Total Paused</span>
+                            <div class="status-info">
+                                <span class="status-icon">⏸️</span>
+                                <span class="status-label">Total Paused</span>
+                            </div>
                             <span class="status-value" id="stopStatus">00:00:00</span>
                         </div>
+                        
                         <div class="status-card card-overtime hidden" id="overtimeCard">
-                            <span class="status-label">Overtime</span>
+                            <div class="status-info">
+                                <span class="status-icon">⚠️</span>
+                                <span class="status-label">Overtime</span>
+                            </div>
                             <span class="status-value" id="overtimeStatus">+00:00:00</span>
                         </div>
                     </div>
 
                     <div class="controls">
-                        <button id="startBtn" onclick="startTimer()">Start</button>
-                        <button id="stopBtn" onclick="togglePauseResume()">Pause</button>
-                        <button id="resetBtn" onclick="resetTimer()">Reset</button>
+                        <button id="startBtn" onclick="startTimer()">▶ Start</button>
+                        <button id="stopBtn" onclick="togglePauseResume()">⏸ Pause</button>
+                        <button id="resetBtn" onclick="resetTimer()">↺ Reset</button>
                     </div>
                 </div>
 
@@ -753,12 +806,12 @@
 
         function updateStopButtonUI(isPaused) {
             if (isPaused) {
-                stopBtn.textContent = "Resume";
+                stopBtn.textContent = "▶ Resume";
                 stopBtn.style.borderColor = "#00ffcc";
                 stopBtn.style.color = "#00ffcc";
             } else {
-                stopBtn.textContent = "Pause";
-                stopBtn.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                stopBtn.textContent = "⏸ Pause";
+                stopBtn.style.borderColor = "rgba(255, 170, 0, 0.3)";
                 stopBtn.style.color = "#fff";
             }
         }
