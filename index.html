@@ -53,7 +53,7 @@
             position: absolute;
             top: 20px;
             width: 100%;
-            max-width: 650px;
+            max-width: 750px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -116,11 +116,11 @@
         .timer-container {
             background: rgba(10, 10, 20, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: clamp(20px, 5vw, 35px);
+            border-radius: 24px;
+            padding: clamp(20px, 4vw, 35px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
-            max-width: 650px;
+            max-width: 750px;
             width: 100%;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -158,9 +158,9 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ddd;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -174,7 +174,7 @@
         /* --- STYLE 1: LINEAR PROGRESS BAR --- */
         .progress-bar-container {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             margin-bottom: 20px;
@@ -197,11 +197,13 @@
             width: 100% !important;
         }
 
-        /* --- STYLE 2: CIRCULAR RING (LARGER & RESPONSIVE) --- */
+        /* --- STYLE 2: FULL WIDE CIRCULAR RING --- */
         .ring-wrapper {
             position: relative;
-            width: clamp(260px, 55vw, 340px);
-            height: clamp(260px, 55vw, 340px);
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+            aspect-ratio: 1 / 1;
             margin: 0 auto 15px auto;
             display: flex;
             align-items: center;
@@ -220,21 +222,21 @@
         .ring-bg {
             fill: none;
             stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 8;
+            stroke-width: 6;
         }
 
         .ring-circle {
             fill: none;
             stroke: #00f0ff;
-            stroke-width: 8;
+            stroke-width: 6;
             stroke-linecap: round;
-            filter: drop-shadow(0 0 8px #00f0ff);
+            filter: drop-shadow(0 0 10px #00f0ff);
             transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease, filter 0.5s ease;
         }
 
         .ring-circle.overtime {
             stroke: #ff007f;
-            filter: drop-shadow(0 0 8px #ff007f);
+            filter: drop-shadow(0 0 10px #ff007f);
         }
 
         .ring-content {
@@ -245,37 +247,38 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            padding: 0 20px;
         }
 
         .labels {
             display: flex;
             justify-content: space-around;
-            width: 80%;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: clamp(9px, 2.2vw, 11px);
+            width: 75%;
+            color: rgba(255, 255, 255, 0.35);
+            font-size: clamp(10px, 2vw, 13px);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 5px;
         }
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(30px, 7vw, 48px);
+            font-size: clamp(32px, 8.5vw, 56px);
             color: #ffffff;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            text-shadow: 0 0 18px rgba(255, 255, 255, 0.3);
             transition: color 0.5s ease, text-shadow 0.5s ease;
+            white-space: nowrap;
         }
 
-        /* Display Style adjustments when in Line mode */
         .style-line .display {
-            font-size: clamp(45px, 11vw, 75px);
+            font-size: clamp(45px, 11vw, 80px);
             margin-bottom: 25px;
         }
+
         .style-line .labels {
             width: 100%;
-            font-size: clamp(10px, 2.5vw, 13px);
+            font-size: clamp(11px, 2.5vw, 14px);
         }
 
         .display.overtime {
@@ -291,7 +294,7 @@
         }
 
         .inputs-section input {
-            width: clamp(65px, 18vw, 85px);
+            width: clamp(70px, 18vw, 90px);
             padding: 12px;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -314,22 +317,23 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .controls button {
             background-color: rgba(255, 255, 255, 0.03);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px 25px;
+            padding: 12px 28px;
             font-size: clamp(14px, 4vw, 16px);
             font-weight: bold;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 12px;
             transition: all 0.2s ease;
             flex: 1;
-            min-width: 90px;
-            max-width: 150px;
+            min-width: 100px;
+            max-width: 160px;
         }
 
         .controls button:hover {
@@ -346,68 +350,63 @@
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
         }
 
-        #resetBtn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: #aaa;
-            color: #fff;
+        /* --- SEPARATE GRID BOXES FOR STATUS STATS --- */
+        .status-grid {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            width: 100%;
         }
 
-        .status-panel {
-            margin-top: 25px;
-            background: rgba(5, 5, 10, 0.8);
-            padding: 15px 20px;
-            border-radius: 15px;
-            border-left: 4px solid #00f0ff;
-            text-align: left;
+        .status-card {
+            background: rgba(5, 5, 12, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 12px;
+            border-radius: 16px;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            transition: border-left-color 0.5s ease;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        .status-panel.overtime-panel {
-            border-left-color: #ff007f;
+        .status-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            padding-bottom: 6px;
-        }
-
-        .status-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
+        .status-card.card-target::before { background: #00f0ff; }
+        .status-card.card-elapsed::before { background: #00ffcc; }
+        .status-card.card-stopped::before { background: #ffaa00; }
+        .status-card.card-overtime::before { background: #ff007f; }
 
         .status-label {
             color: rgba(255, 255, 255, 0.5);
-            font-size: clamp(12px, 3.5vw, 13px);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(16px, 4.5vw, 20px);
+            font-size: clamp(16px, 3.5vw, 22px);
             color: #ffffff;
             letter-spacing: 1px;
         }
 
-        .status-row:nth-child(2) .status-value {
-            color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-        }
+        .card-target .status-value { color: #ffffff; }
+        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 10px rgba(0, 255, 204, 0.3); }
+        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 10px rgba(255, 170, 0, 0.3); }
+        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
 
-        .status-row:nth-child(3) .status-value {
-            color: #ffaa00;
-            text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
-        }
-
-        .status-row.overtime-row .status-value {
-            color: #ff007f;
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
-        }
     </style>
 </head>
 <body>
@@ -429,7 +428,7 @@
         
         <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Quick Presets</h2>
+            <h2 style="color: rgba(255,255,255,0.4); font-size: 12px; margin-bottom: 12px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Quick Presets</h2>
             
             <div class="presets-grid">
                 <button class="preset-btn" onclick="setPreset(0, 15, 0)">15M</button>
@@ -441,14 +440,14 @@
                 <button class="preset-btn" onclick="setPreset(6, 0, 0)">6H</button>
             </div>
 
-            <h2 style="color: rgba(255,255,255,0.3); font-size: 12px; margin-bottom: 5px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Or Set Custom Target Time</h2>
+            <h2 style="color: rgba(255,255,255,0.3); font-size: 11px; margin-bottom: 8px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Or Set Custom Target Time</h2>
             <div class="inputs-section">
                 <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
                 <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
                 <input type="number" id="secs" placeholder="SS" min="0" max="59" oninput="validity.valid||(value='');">
             </div>
             <div class="controls">
-                <button id="startInitialBtn" onclick="startTimer()" style="max-width: 200px;">Start Timer</button>
+                <button id="startInitialBtn" onclick="startTimer()" style="max-width: 220px;">Start Timer</button>
             </div>
         </div>
 
@@ -468,12 +467,12 @@
                 <div class="display" id="timerDisplayLine">00:00:00</div>
             </div>
 
-            <!-- VIEW 2: CIRCULAR RING (LARGE) -->
+            <!-- VIEW 2: CIRCULAR RING (AUTO FULL-FIT) -->
             <div id="ringView">
                 <div class="ring-wrapper">
                     <svg class="ring-svg" viewBox="0 0 200 200">
-                        <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
-                        <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="90" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                        <circle class="ring-bg" cx="100" cy="100" r="92"></circle>
+                        <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="92" stroke-dasharray="578.05" stroke-dashoffset="0"></circle>
                     </svg>
                     <div class="ring-content">
                         <div class="labels">
@@ -492,24 +491,26 @@
                 <button id="resetBtn" onclick="resetTimer()">Reset</button>
             </div>
 
-            <div class="status-panel" id="mainStatusPanel">
-                <div class="status-row">
+            <!-- SEPARATE INDIVIDUAL STATS CARDS -->
+            <div class="status-grid">
+                <div class="status-card card-target">
                     <span class="status-label">Target Time</span>
                     <span class="status-value" id="targetStatus">00:00:00</span>
                 </div>
-                <div class="status-row">
+                <div class="status-card card-elapsed">
                     <span class="status-label">Total Elapsed</span>
                     <span class="status-value" id="elapsedStatus">00:00:00</span>
                 </div>
-                <div class="status-row">
-                    <span class="status-label">Total Stopped / Paused</span>
+                <div class="status-card card-stopped">
+                    <span class="status-label">Total Paused</span>
                     <span class="status-value" id="stopStatus">00:00:00</span>
                 </div>
-                <div class="status-row overtime-row hidden" id="overtimeRow">
-                    <span class="status-label">Overtime (අමතර කාලය)</span>
+                <div class="status-card card-overtime hidden" id="overtimeCard">
+                    <span class="status-label">Overtime</span>
                     <span class="status-value" id="overtimeStatus">+00:00:00</span>
                 </div>
             </div>
+
         </div>
 
     </div>
@@ -604,7 +605,7 @@
             updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
         }
 
-        // TIMER LOGIC
+        // TIMER LOGIC & CALCULATIONS
         let mainTimer, stopCountUp;
         let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
         let isRunning = false, isStopRunning = false, isOvertime = false; 
@@ -614,13 +615,12 @@
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
         const stopStatus = document.getElementById('stopStatus');
-        const overtimeRow = document.getElementById('overtimeRow');
+        const overtimeCard = document.getElementById('overtimeCard');
         const overtimeStatus = document.getElementById('overtimeStatus');
-        const mainStatusPanel = document.getElementById('mainStatusPanel');
         const stopBtn = document.getElementById('stopBtn');
         const progressBar = document.getElementById('progressBar');
         const ringCircle = document.getElementById('ringCircle');
-        const ringCircumference = 2 * Math.PI * 90; // 565.48
+        const ringCircumference = 2 * Math.PI * 92; // ~578.05
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
@@ -765,8 +765,7 @@
 
             displayLine.classList.remove('overtime');
             displayRing.classList.remove('overtime');
-            mainStatusPanel.classList.remove('overtime-panel');
-            overtimeRow.classList.add('hidden');
+            overtimeCard.classList.add('hidden');
             
             progressBar.classList.remove('overtime');
             progressBar.style.width = "100%";
@@ -792,13 +791,13 @@
         function enableOvertimeUI() {
             displayLine.classList.add('overtime');
             displayRing.classList.add('overtime');
-            mainStatusPanel.classList.add('overtime-panel');
-            overtimeRow.classList.remove('hidden');
+            overtimeCard.classList.remove('hidden');
             progressBar.classList.add('overtime');
             ringCircle.classList.add('overtime');
         }
 
         function formatTime(secs) {
+            secs = Math.max(0, secs); // Fixes negative values bug
             const h = Math.floor(secs / 3600).toString().padStart(2, '0');
             const m = Math.floor((secs % 3600) / 60).toString().padStart(2, '0');
             const s = (secs % 60).toString().padStart(2, '0');
@@ -812,11 +811,8 @@
             
             if (!isOvertime && initialSeconds > 0) {
                 const ratio = currentSeconds / initialSeconds;
-                
-                // Line bar update
                 progressBar.style.width = `${ratio * 100}%`;
 
-                // Ring circle update
                 const offset = ringCircumference - (ratio * ringCircumference);
                 ringCircle.style.strokeDashoffset = offset;
             } else if (isOvertime) {
@@ -826,8 +822,11 @@
 
         function updateStatusPanels() {
             targetStatus.textContent = formatTime(initialSeconds);
-            const elapsed = (initialSeconds - currentSeconds) + overtimeSeconds;
+            
+            // Correct Elapsed Calculation (Prevents minus bug)
+            const elapsed = Math.max(0, (initialSeconds - currentSeconds) + overtimeSeconds);
             elapsedStatus.textContent = formatTime(elapsed);
+            
             stopStatus.textContent = formatTime(totalStopSeconds);
             if (isOvertime) overtimeStatus.textContent = "+" + formatTime(overtimeSeconds);
         }
