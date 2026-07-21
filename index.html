@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #05050a;
+            background-color: #030308;
             color: #ffffff;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             display: flex;
@@ -28,7 +28,7 @@
             transition: background 0.8s ease;
         }
 
-        /* --- BACKGROUND CANVAS & TRANSPARENCY --- */
+        /* --- BACKGROUND CANVAS & OVERLAY --- */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -50,34 +50,19 @@
             transition: all 0.8s ease;
         }
 
-        /* THEME OVERLAYS */
-        body.theme-rain .ambient-overlay {
-            background: linear-gradient(180deg, rgba(10, 20, 35, 0.4) 0%, rgba(5, 10, 20, 0.8) 100%);
-        }
-
-        body.theme-leaves .ambient-overlay {
-            background: radial-gradient(circle at 50% 30%, rgba(30, 60, 20, 0.3), rgba(5, 15, 5, 0.85));
-        }
-
-        body.theme-lofi .ambient-overlay {
-            background: radial-gradient(circle at 50% 80%, rgba(255, 140, 0, 0.08), rgba(10, 5, 20, 0.9));
-        }
-
-        body.theme-cyber .ambient-overlay {
-            background: radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.08), rgba(5, 5, 15, 0.85));
-        }
-
-        body.theme-space .ambient-overlay {
-            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08), rgba(5, 5, 10, 0.85));
-        }
-
+        /* THEMES */
+        body.theme-rain .ambient-overlay { background: linear-gradient(180deg, rgba(10, 20, 35, 0.2) 0%, rgba(5, 10, 20, 0.6) 100%); }
+        body.theme-leaves .ambient-overlay { background: radial-gradient(circle at 50% 30%, rgba(30, 60, 20, 0.2), rgba(5, 15, 5, 0.7)); }
+        body.theme-lofi .ambient-overlay { background: radial-gradient(circle at 50% 80%, rgba(255, 140, 0, 0.08), rgba(10, 5, 20, 0.8)); }
+        body.theme-cyber .ambient-overlay { background: radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.08), rgba(5, 5, 15, 0.7)); }
+        body.theme-space .ambient-overlay { background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08), rgba(5, 5, 10, 0.7)); }
         body.theme-minimal { background-color: #000000; }
         body.theme-minimal .ambient-overlay { background: none; }
 
         /* TOP BAR */
         .top-bar {
             position: absolute;
-            top: 20px;
+            top: 15px;
             width: 100%;
             max-width: 1400px;
             display: flex;
@@ -85,11 +70,15 @@
             align-items: center;
             padding: 0 20px;
             z-index: 10;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .top-bar-right {
             display: flex;
+            align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .local-clock {
@@ -103,15 +92,34 @@
             backdrop-filter: blur(8px);
         }
 
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 10px;
+            backdrop-filter: blur(8px);
+            font-size: 12px;
+            color: #ddd;
+        }
+
+        .control-group input[type="range"] {
+            width: 80px;
+            cursor: pointer;
+            accent-color: #00f0ff;
+        }
+
         .icon-btn {
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 13px;
+            font-size: 12px;
             backdrop-filter: blur(8px);
         }
 
@@ -122,9 +130,9 @@
         }
 
         h1 {
-            font-size: clamp(28px, 4vw, 44px);
+            font-size: clamp(26px, 4vw, 42px);
             letter-spacing: 6px;
-            margin-top: 45px;
+            margin-top: 55px;
             margin-bottom: 20px;
             text-transform: uppercase;
             font-weight: 800;
@@ -142,18 +150,19 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* --- TRANSPARENT GLASS CONTAINER --- */
+        /* --- ADJUSTABLE GLASS CONTAINER --- */
         .timer-container {
-            background: rgba(10, 12, 24, 0.35); /* High Transparency */
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(10, 10, 20, 0.2); /* Default Opacity, Controlled by JS Slider */
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 28px;
             padding: clamp(20px, 3vw, 35px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.02);
             max-width: 1250px;
             width: 95%;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             position: relative;
+            transition: background 0.2s ease;
         }
 
         .timer-container::before {
@@ -166,14 +175,8 @@
             background: linear-gradient(90deg, transparent, #00f0ff, #ff007f, transparent);
         }
 
-        .fade-element {
-            transition: opacity 0.3s ease-in-out;
-        }
-
-        .hidden {
-            display: none !important;
-            opacity: 0;
-        }
+        .fade-element { transition: opacity 0.3s ease-in-out; }
+        .hidden { display: none !important; opacity: 0; }
 
         /* SETUP MODE */
         .presets-grid {
@@ -248,6 +251,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
+            position: relative;
         }
 
         .stats-control-side {
@@ -258,7 +262,26 @@
             width: 100%;
         }
 
-        /* LINE PROGRESS */
+        /* --- CHARACTER ANIMATION WRAPPER --- */
+        .character-box {
+            position: absolute;
+            bottom: -15px;
+            right: 0px;
+            width: clamp(70px, 10vw, 110px);
+            height: clamp(70px, 10vw, 110px);
+            z-index: 5;
+            pointer-events: none;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+            transition: all 0.3s ease;
+        }
+
+        .character-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* LINE VIEW PROGRESS */
         .progress-bar-container {
             width: 100%;
             height: 12px;
@@ -284,11 +307,11 @@
             width: 100% !important;
         }
 
-        /* --- PERFECT RING ENGINE (FIXED OVERFLOW & NO CUT-OFF) --- */
+        /* RING ENGINE */
         .ring-wrapper {
             position: relative;
             width: 100%;
-            max-width: 440px; /* Reduced to ensure fitting */
+            max-width: 420px;
             aspect-ratio: 1 / 1;
             margin: 0 auto;
             display: flex;
@@ -328,12 +351,12 @@
 
         .ring-content {
             position: relative;
-            z-index: 10;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 85%; /* Fits perfectly inside the ring without touching */
+            width: 85%;
             text-align: center;
         }
 
@@ -341,7 +364,7 @@
             display: flex;
             justify-content: space-around;
             width: 100%;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             font-size: clamp(10px, 1.3vw, 13px);
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -350,10 +373,10 @@
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(26px, 4.5vw, 48px); /* Responsive Size */
+            font-size: clamp(26px, 4.5vw, 48px);
             color: #ffffff;
             letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
             white-space: nowrap;
         }
 
@@ -368,7 +391,7 @@
             text-shadow: 0 0 20px rgba(255, 0, 127, 0.7);
         }
 
-        /* TRANSPARENT STATS CARDS */
+        /* STATS CARDS */
         .status-cards-vertical {
             display: flex;
             flex-direction: column;
@@ -377,8 +400,8 @@
         }
 
         .status-card {
-            background: rgba(0, 0, 0, 0.25); /* Transparent Background */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 14px 20px;
             border-radius: 16px;
             display: flex;
@@ -386,14 +409,13 @@
             align-items: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
             transition: transform 0.2s ease;
         }
 
         .status-card:hover {
             transform: translateY(-2px);
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .status-card::before {
@@ -463,7 +485,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(6px);
         }
 
         #startBtn { border-color: rgba(0, 240, 255, 0.4); }
@@ -494,13 +516,18 @@
 </head>
 <body class="theme-rain">
 
-    <!-- ANIMATED CANVAS BACKGROUND -->
+    <!-- CANVAS BACKGROUND -->
     <canvas id="bgCanvas"></canvas>
     <div class="ambient-overlay"></div>
 
     <div class="top-bar">
         <div class="local-clock" id="localClock">00:00:00 AM</div>
         <div class="top-bar-right">
+            <!-- OPACITY ADJUSTMENT SLIDER -->
+            <div class="control-group">
+                <span>🎛️ Box Opacity</span>
+                <input type="range" id="opacitySlider" min="0" max="0.8" step="0.05" value="0.2" oninput="changeOpacity(this.value)">
+            </div>
             <button class="icon-btn" onclick="cycleTheme()" id="themeBtn">🌧️ Theme: Rain</button>
             <button class="icon-btn" onclick="toggleStyle()" id="styleToggleBtn">🔄 Style: Ring</button>
             <button class="icon-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
@@ -513,7 +540,7 @@
         
         <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 15px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Quick Presets</h2>
+            <h2 style="color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 15px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Quick Presets</h2>
             
             <div class="presets-grid">
                 <button class="preset-btn" onclick="setPreset(0, 15, 0)">15M</button>
@@ -525,7 +552,7 @@
                 <button class="preset-btn" onclick="setPreset(6, 0, 0)">6H</button>
             </div>
 
-            <h2 style="color: rgba(255,255,255,0.4); font-size: 12px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Or Set Custom Target Time</h2>
+            <h2 style="color: rgba(255,255,255,0.5); font-size: 12px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Or Set Custom Target Time</h2>
             <div class="inputs-section">
                 <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
                 <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
@@ -540,8 +567,14 @@
         <div id="activeMode" class="fade-element hidden">
             <div class="dashboard-grid">
                 
-                <!-- LEFT SIDE: TIMER VISUALIZATION -->
+                <!-- LEFT SIDE: TIMER VISUALIZATION & ANIMATION -->
                 <div class="timer-visual-side">
+                    
+                    <!-- DYNAMIC ANIMATED CHARACTER (WORK / EAT) -->
+                    <div class="character-box" id="characterBox">
+                        <img id="charImg" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnE0MG0wZThzNXQyZXlsOHBvd3l4MGp1eDFsdGFuNmtldml6eXdwMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/SW92X6I2BInbOq6BUp/giphy.gif" alt="Working Animation">
+                    </div>
+
                     <!-- LINE VIEW -->
                     <div id="lineView" class="hidden" style="width: 100%;">
                         <div class="progress-bar-container">
@@ -555,7 +588,7 @@
                         <div class="display" id="timerDisplayLine">00:00:00</div>
                     </div>
 
-                    <!-- RING VIEW (EXACT FIT RADIUS) -->
+                    <!-- RING VIEW -->
                     <div id="ringView" style="width: 100%;">
                         <div class="ring-wrapper">
                             <svg class="ring-svg" viewBox="0 0 240 240">
@@ -623,6 +656,18 @@
     </div>
 
     <script>
+        // --- OPACITY CONTROL ---
+        function changeOpacity(val) {
+            document.getElementById('timerContainer').style.background = `rgba(10, 10, 20, ${val})`;
+            localStorage.setItem('ttw_opacity', val);
+        }
+
+        const savedOpacity = localStorage.getItem('ttw_opacity');
+        if(savedOpacity !== null) {
+            document.getElementById('opacitySlider').value = savedOpacity;
+            changeOpacity(savedOpacity);
+        }
+
         function updateLocalClock() {
             const now = new Date();
             document.getElementById('localClock').textContent = now.toLocaleTimeString();
@@ -638,7 +683,7 @@
             }
         }
 
-        // --- ADVANCED ANIMATED BACKGROUND ENGINE ---
+        // --- BACKGROUND CANVAS ENGINE ---
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let elements = [];
@@ -664,23 +709,21 @@
             const theme = themes[currentThemeIndex].id;
 
             if (theme === 'theme-rain') {
-                const count = Math.floor(canvas.width / 8);
+                const count = Math.floor(canvas.width / 6);
                 for (let i = 0; i < count; i++) {
                     elements.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        length: Math.random() * 20 + 10,
-                        speed: Math.random() * 10 + 12,
-                        opacity: Math.random() * 0.4 + 0.1
+                        length: Math.random() * 25 + 12,
+                        speed: Math.random() * 12 + 15
                     });
                 }
             } else if (theme === 'theme-leaves') {
-                const count = 35;
-                for (let i = 0; i < count; i++) {
+                for (let i = 0; i < 40; i++) {
                     elements.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        size: Math.random() * 7 + 5,
+                        size: Math.random() * 8 + 5,
                         speedY: Math.random() * 1.5 + 0.8,
                         speedX: Math.random() * 1 - 0.5,
                         rotation: Math.random() * 360,
@@ -688,29 +731,17 @@
                         color: ['#88b04b', '#4d7c0f', '#a3e635', '#ca8a04'][Math.floor(Math.random() * 4)]
                     });
                 }
-            } else if (theme === 'theme-lofi') {
-                // Particles / Dust
-                for (let i = 0; i < 40; i++) {
-                    elements.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        radius: Math.random() * 2 + 1,
-                        vx: Math.random() * 0.4 - 0.2,
-                        vy: Math.random() * -0.3 - 0.1,
-                        alpha: Math.random() * 0.5 + 0.2
-                    });
-                }
-            } else if (theme === 'theme-cyber' || theme === 'theme-space') {
+            } else if (theme === 'theme-lofi' || theme === 'theme-cyber' || theme === 'theme-space') {
                 for (let i = 0; i < 80; i++) {
                     elements.push({
                         x: Math.random() * canvas.width,
                         y: Math.random() * canvas.height,
-                        radius: Math.random() * 2 + 0.5,
-                        vx: Math.random() * 0.6 - 0.3,
-                        vy: Math.random() * 0.6 - 0.3,
+                        radius: Math.random() * 2.5 + 0.5,
+                        vx: Math.random() * 0.8 - 0.4,
+                        vy: Math.random() * 0.8 - 0.4,
                         alpha: Math.random(),
-                        speed: Math.random() * 0.02 + 0.005,
-                        color: theme === 'theme-cyber' ? '#00f0ff' : '#a855f7'
+                        speed: Math.random() * 0.03 + 0.008,
+                        color: theme === 'theme-cyber' ? '#00f0ff' : (theme === 'theme-space' ? '#a855f7' : '#ffaa00')
                     });
                 }
             }
@@ -721,8 +752,8 @@
             const theme = themes[currentThemeIndex].id;
 
             if (theme === 'theme-rain') {
-                ctx.strokeStyle = 'rgba(174, 194, 224, 0.5)';
-                ctx.lineWidth = 1.2;
+                ctx.strokeStyle = 'rgba(174, 194, 224, 0.6)';
+                ctx.lineWidth = 1.4;
                 for (let r of elements) {
                     ctx.beginPath();
                     ctx.moveTo(r.x, r.y);
@@ -756,51 +787,7 @@
                         l.x = Math.random() * canvas.width;
                     }
                 }
-            } else if (theme === 'theme-lofi') {
-                // Draw Studying Boy Silhouette Art on Bottom Right
-                const w = canvas.width;
-                const h = canvas.height;
-                
-                // Warm Desk Light Glow
-                let glow = ctx.createRadialGradient(w * 0.85, h * 0.8, 10, w * 0.85, h * 0.8, 300);
-                glow.addColorStop(0, 'rgba(255, 170, 0, 0.25)');
-                glow.addColorStop(1, 'transparent');
-                ctx.fillStyle = glow;
-                ctx.fillRect(0, 0, w, h);
-
-                // Silhouette
-                ctx.fillStyle = 'rgba(10, 8, 20, 0.85)';
-                // Desk
-                ctx.fillRect(w > 800 ? w - 450 : w - 300, h - 90, 500, 100);
-                // Student & Laptop
-                ctx.beginPath();
-                let baseX = w > 800 ? w - 320 : w - 220;
-                let baseY = h - 90;
-                // Laptop Screen
-                ctx.moveTo(baseX - 60, baseY);
-                ctx.lineTo(baseX - 20, baseY - 45);
-                ctx.lineTo(baseX - 25, baseY);
-                // Head
-                ctx.arc(baseX + 40, baseY - 90, 22, 0, Math.PI * 2);
-                // Body/Shoulders
-                ctx.moveTo(baseX + 15, baseY);
-                ctx.lineTo(baseX + 25, baseY - 65);
-                ctx.lineTo(baseX + 60, baseY - 65);
-                ctx.lineTo(baseX + 75, baseY);
-                ctx.fill();
-
-                // Dust Particles
-                ctx.fillStyle = 'rgba(255, 220, 150, 0.6)';
-                for (let p of elements) {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0 || p.x > w) p.vx *= -1;
-                    if (p.y < 0 || p.y > h) p.y = h;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            } else if (theme === 'theme-cyber' || theme === 'theme-space') {
+            } else if (theme === 'theme-lofi' || theme === 'theme-cyber' || theme === 'theme-space') {
                 for (let p of elements) {
                     p.alpha += p.speed;
                     if (p.alpha > 1 || p.alpha < 0.1) p.speed = -p.speed;
@@ -835,7 +822,6 @@
 
         window.addEventListener('resize', resizeCanvas);
 
-        // Restore Theme
         const savedThemeIndex = localStorage.getItem('ttw_theme_index');
         if (savedThemeIndex !== null) {
             document.body.classList.remove('theme-rain');
@@ -875,6 +861,19 @@
             updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
         }
 
+        // --- ANIMATION URLs (WORKING vs EATING) ---
+        const WORK_ANIMATION = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMnE0MG0wZThzNXQyZXlsOHBvd3l4MGp1eDFsdGFuNmtldml6eXdwMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/SW92X6I2BInbOq6BUp/giphy.gif"; // Working Boy
+        const EAT_ANIMATION = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGcxcnNrc3hhb3p6OXZudDRjMmhxaHRnNTdvaDdpZms2dnFiNjFscyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/iXbjY63BSpyL34T5oi/giphy.gif";  // Eating Rice Boy
+
+        function setCharacterState(state) {
+            const img = document.getElementById('charImg');
+            if (state === 'working') {
+                img.src = WORK_ANIMATION;
+            } else if (state === 'eating') {
+                img.src = EAT_ANIMATION;
+            }
+        }
+
         // --- TIMER ENGINE ---
         let mainTimer, stopCountUp;
         let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
@@ -890,7 +889,7 @@
         const stopBtn = document.getElementById('stopBtn');
         const progressBar = document.getElementById('progressBar');
         const ringCircle = document.getElementById('ringCircle');
-        const ringCircumference = 2 * Math.PI * 102; // Exact Radius = 102
+        const ringCircumference = 2 * Math.PI * 102;
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
@@ -913,6 +912,9 @@
                 if(localStorage.getItem('ttw_is_stopped') === 'true') {
                     runStopTimer();
                     updateStopButtonUI(true);
+                    setCharacterState('eating');
+                } else {
+                    setCharacterState('working');
                 }
             }
         };
@@ -941,6 +943,8 @@
             isStopRunning = false;
             localStorage.setItem('ttw_is_stopped', 'false');
             updateStopButtonUI(false);
+
+            setCharacterState('working'); // Show Working Boy
 
             if (currentSeconds === 0 && !isOvertime) {
                 const hrs = Math.max(0, parseInt(document.getElementById('hrs').value) || 0);
@@ -989,6 +993,7 @@
                 isRunning = false;
                 runStopTimer();
                 updateStopButtonUI(true);
+                setCharacterState('eating'); // Show Eating Boy
             } else if (isStopRunning) {
                 startTimer();
             }
