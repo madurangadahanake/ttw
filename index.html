@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #020208;
+            background-color: #05050a;
             color: #ffffff;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             display: flex;
@@ -22,13 +22,13 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 30px 20px;
+            padding: 20px 15px;
             overflow-x: hidden;
             position: relative;
             transition: background 0.8s ease;
         }
 
-        /* --- BACKGROUND THEMES & ANIMATIONS --- */
+        /* --- BACKGROUND CANVAS & TRANSPARENCY --- */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -50,37 +50,29 @@
             transition: all 0.8s ease;
         }
 
-        /* Theme 1: Deep Space Glow */
-        body.theme-space .ambient-overlay {
-            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08), transparent 70%),
-                        radial-gradient(circle at 20% 80%, rgba(41, 128, 185, 0.08), transparent 60%);
+        /* THEME OVERLAYS */
+        body.theme-rain .ambient-overlay {
+            background: linear-gradient(180deg, rgba(10, 20, 35, 0.4) 0%, rgba(5, 10, 20, 0.8) 100%);
         }
 
-        /* Theme 2: Cyber Neon Orbs */
-        body.theme-cyber {
-            background-color: #050512;
+        body.theme-leaves .ambient-overlay {
+            background: radial-gradient(circle at 50% 30%, rgba(30, 60, 20, 0.3), rgba(5, 15, 5, 0.85));
         }
+
+        body.theme-lofi .ambient-overlay {
+            background: radial-gradient(circle at 50% 80%, rgba(255, 140, 0, 0.08), rgba(10, 5, 20, 0.9));
+        }
+
         body.theme-cyber .ambient-overlay {
-            background: radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.12), transparent 50%),
-                        radial-gradient(circle at 10% 90%, rgba(255, 0, 127, 0.12), transparent 50%);
+            background: radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.08), rgba(5, 5, 15, 0.85));
         }
 
-        /* Theme 3: Aurora Flow */
-        body.theme-aurora {
-            background-color: #020b14;
-        }
-        body.theme-aurora .ambient-overlay {
-            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 204, 0.15), transparent 60%),
-                        radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.1), transparent 50%);
+        body.theme-space .ambient-overlay {
+            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08), rgba(5, 5, 10, 0.85));
         }
 
-        /* Theme 4: Minimal Dark */
-        body.theme-minimal {
-            background-color: #000000;
-        }
-        body.theme-minimal .ambient-overlay {
-            background: none;
-        }
+        body.theme-minimal { background-color: #000000; }
+        body.theme-minimal .ambient-overlay { background: none; }
 
         /* TOP BAR */
         .top-bar {
@@ -92,6 +84,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
+            z-index: 10;
         }
 
         .top-bar-right {
@@ -100,38 +93,39 @@
         }
 
         .local-clock {
-            font-size: 15px;
+            font-size: 14px;
             letter-spacing: 1px;
             color: rgba(0, 240, 255, 0.9);
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 18px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 240, 255, 0.25);
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            backdrop-filter: blur(8px);
         }
 
         .icon-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             padding: 8px 16px;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
-            font-size: 14px;
+            font-size: 13px;
+            backdrop-filter: blur(8px);
         }
 
         .icon-btn:hover {
             background: rgba(0, 240, 255, 0.2);
             border-color: #00f0ff;
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
         }
 
         h1 {
-            font-size: clamp(32px, 4vw, 48px);
+            font-size: clamp(28px, 4vw, 44px);
             letter-spacing: 6px;
-            margin-top: 50px;
-            margin-bottom: 25px;
+            margin-top: 45px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             font-weight: 800;
             text-align: center;
@@ -148,16 +142,17 @@
             100% { background-position: 100% 50%; }
         }
 
+        /* --- TRANSPARENT GLASS CONTAINER --- */
         .timer-container {
-            background: rgba(10, 10, 20, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 12, 24, 0.35); /* High Transparency */
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 28px;
-            padding: clamp(25px, 4vw, 45px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            max-width: 1400px;
+            padding: clamp(20px, 3vw, 35px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-width: 1250px;
             width: 95%;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             position: relative;
         }
 
@@ -190,18 +185,19 @@
         }
 
         .preset-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ddd;
             padding: 10px 22px;
             border-radius: 10px;
             font-size: 15px;
             cursor: pointer;
             transition: all 0.2s;
+            backdrop-filter: blur(5px);
         }
 
         .preset-btn:hover {
-            background: rgba(0, 240, 255, 0.15);
+            background: rgba(0, 240, 255, 0.2);
             border-color: #00f0ff;
             color: #00f0ff;
         }
@@ -216,8 +212,8 @@
         .inputs-section input {
             width: clamp(80px, 12vw, 110px);
             padding: 15px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             border-radius: 12px;
             text-align: center;
@@ -227,8 +223,8 @@
 
         .inputs-section input:focus {
             border-color: #00f0ff;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
             outline: none;
         }
 
@@ -236,13 +232,13 @@
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 35px;
+            gap: 30px;
             align-items: center;
         }
 
         @media (min-width: 900px) {
             .dashboard-grid {
-                grid-template-columns: 1.2fr 0.8fr;
+                grid-template-columns: 1.1fr 0.9fr;
             }
         }
 
@@ -258,7 +254,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 24px;
+            gap: 20px;
             width: 100%;
         }
 
@@ -266,11 +262,11 @@
         .progress-bar-container {
             width: 100%;
             height: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             margin-bottom: 25px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .progress-bar-fill {
@@ -288,17 +284,16 @@
             width: 100% !important;
         }
 
-        /* --- PERFECT CIRCULAR RING (NO CUT-OFF FIXED) --- */
+        /* --- PERFECT RING ENGINE (FIXED OVERFLOW & NO CUT-OFF) --- */
         .ring-wrapper {
             position: relative;
             width: 100%;
-            max-width: 520px;
+            max-width: 440px; /* Reduced to ensure fitting */
             aspect-ratio: 1 / 1;
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px; /* Safe Padding for Glow */
         }
 
         .ring-svg {
@@ -308,19 +303,19 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            overflow: visible; /* Prevents SVG glow clipping */
+            overflow: visible;
         }
 
         .ring-bg {
             fill: none;
-            stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 7;
+            stroke: rgba(255, 255, 255, 0.08);
+            stroke-width: 8;
         }
 
         .ring-circle {
             fill: none;
             stroke: #00f0ff;
-            stroke-width: 7;
+            stroke-width: 8;
             stroke-linecap: round;
             filter: drop-shadow(0 0 10px #00f0ff);
             transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease;
@@ -338,66 +333,67 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            padding: 0 20px;
+            width: 85%; /* Fits perfectly inside the ring without touching */
+            text-align: center;
         }
 
         .labels {
             display: flex;
             justify-content: space-around;
-            width: 80%;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: clamp(11px, 1.5vw, 14px);
+            width: 100%;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(10px, 1.3vw, 13px);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             margin-bottom: 5px;
         }
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(36px, 6vw, 64px);
+            font-size: clamp(26px, 4.5vw, 48px); /* Responsive Size */
             color: #ffffff;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             white-space: nowrap;
         }
 
         .style-line .display {
-            font-size: clamp(48px, 8vw, 90px);
-            margin-bottom: 25px;
+            font-size: clamp(40px, 7vw, 80px);
+            margin-bottom: 20px;
             text-align: center;
         }
 
         .display.overtime {
             color: #ff007f;
-            text-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
+            text-shadow: 0 0 20px rgba(255, 0, 127, 0.7);
         }
 
-        /* STATS CARDS */
+        /* TRANSPARENT STATS CARDS */
         .status-cards-vertical {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             width: 100%;
         }
 
         .status-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 16px 22px;
-            border-radius: 18px;
+            background: rgba(0, 0, 0, 0.25); /* Transparent Background */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             transition: transform 0.2s ease;
         }
 
         .status-card:hover {
             transform: translateY(-2px);
+            background: rgba(0, 0, 0, 0.35);
         }
 
         .status-card::before {
@@ -406,7 +402,7 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 5px;
+            width: 4px;
             border-radius: 4px 0 0 4px;
         }
 
@@ -418,17 +414,14 @@
         .status-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .status-icon {
-            font-size: 18px;
-            opacity: 0.8;
-        }
+        .status-icon { font-size: 16px; opacity: 0.9; }
 
         .status-label {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -436,78 +429,79 @@
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(20px, 2.2vw, 26px);
+            font-size: clamp(18px, 2vw, 24px);
             color: #ffffff;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        .card-target .status-value { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
-        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 12px rgba(0, 255, 204, 0.4); }
-        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 12px rgba(255, 170, 0, 0.4); }
-        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 12px rgba(255, 0, 127, 0.5); }
+        .card-target .status-value { color: #ffffff; }
+        .card-elapsed .status-value { color: #00ffcc; text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
+        .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 8px rgba(255, 170, 0, 0.4); }
+        .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 8px rgba(255, 0, 127, 0.5); }
 
         /* CONTROLS */
         .controls {
             display: flex;
             justify-content: space-between;
-            gap: 14px;
+            gap: 12px;
             width: 100%;
         }
 
         .controls button {
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(0, 0, 0, 0.3);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 14px 20px;
-            font-size: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 13px 18px;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: 1px;
             cursor: pointer;
-            border-radius: 14px;
+            border-radius: 12px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            backdrop-filter: blur(8px);
         }
 
-        #startBtn { border-color: rgba(0, 240, 255, 0.3); }
+        #startBtn { border-color: rgba(0, 240, 255, 0.4); }
         #startBtn:hover {
-            background: rgba(0, 240, 255, 0.15);
+            background: rgba(0, 240, 255, 0.2);
             color: #00f0ff;
             border-color: #00f0ff;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
         }
 
-        #stopBtn { border-color: rgba(255, 170, 0, 0.3); }
+        #stopBtn { border-color: rgba(255, 170, 0, 0.4); }
         #stopBtn:hover {
-            background: rgba(255, 170, 0, 0.15);
+            background: rgba(255, 170, 0, 0.2);
             color: #ffaa00;
             border-color: #ffaa00;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.35);
+            box-shadow: 0 0 18px rgba(255, 170, 0, 0.4);
         }
 
-        #resetBtn { border-color: rgba(255, 255, 255, 0.12); }
+        #resetBtn { border-color: rgba(255, 255, 255, 0.2); }
         #resetBtn:hover {
-            background: rgba(255, 0, 127, 0.15);
+            background: rgba(255, 0, 127, 0.2);
             color: #ff007f;
             border-color: #ff007f;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
+            box-shadow: 0 0 18px rgba(255, 0, 127, 0.4);
         }
 
     </style>
 </head>
-<body class="theme-space">
+<body class="theme-rain">
 
-    <!-- ANIMATED BACKGROUND CANVAS & OVERLAY -->
+    <!-- ANIMATED CANVAS BACKGROUND -->
     <canvas id="bgCanvas"></canvas>
     <div class="ambient-overlay"></div>
 
     <div class="top-bar">
         <div class="local-clock" id="localClock">00:00:00 AM</div>
         <div class="top-bar-right">
-            <button class="icon-btn" onclick="cycleTheme()" id="themeBtn">🌌 Theme: Space</button>
+            <button class="icon-btn" onclick="cycleTheme()" id="themeBtn">🌧️ Theme: Rain</button>
             <button class="icon-btn" onclick="toggleStyle()" id="styleToggleBtn">🔄 Style: Ring</button>
             <button class="icon-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
         </div>
@@ -519,7 +513,7 @@
         
         <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 15px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Quick Presets</h2>
+            <h2 style="color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 15px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Quick Presets</h2>
             
             <div class="presets-grid">
                 <button class="preset-btn" onclick="setPreset(0, 15, 0)">15M</button>
@@ -531,7 +525,7 @@
                 <button class="preset-btn" onclick="setPreset(6, 0, 0)">6H</button>
             </div>
 
-            <h2 style="color: rgba(255,255,255,0.3); font-size: 12px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Or Set Custom Target Time</h2>
+            <h2 style="color: rgba(255,255,255,0.4); font-size: 12px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase; text-align: center;">Or Set Custom Target Time</h2>
             <div class="inputs-section">
                 <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
                 <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
@@ -561,12 +555,12 @@
                         <div class="display" id="timerDisplayLine">00:00:00</div>
                     </div>
 
-                    <!-- RING VIEW (EXACTLY FIXED RADIUS & VIEWBOX) -->
+                    <!-- RING VIEW (EXACT FIT RADIUS) -->
                     <div id="ringView" style="width: 100%;">
                         <div class="ring-wrapper">
-                            <svg class="ring-svg" viewBox="0 0 220 220">
-                                <circle class="ring-bg" cx="110" cy="110" r="95"></circle>
-                                <circle class="ring-circle" id="ringCircle" cx="110" cy="110" r="95" stroke-dasharray="596.9" stroke-dashoffset="0"></circle>
+                            <svg class="ring-svg" viewBox="0 0 240 240">
+                                <circle class="ring-bg" cx="120" cy="120" r="102"></circle>
+                                <circle class="ring-circle" id="ringCircle" cx="120" cy="120" r="102" stroke-dasharray="640.88" stroke-dashoffset="0"></circle>
                             </svg>
                             <div class="ring-content">
                                 <div class="labels">
@@ -644,80 +638,187 @@
             }
         }
 
-        // --- BACKGROUND CANVAS ANIMATION ENGINE ---
+        // --- ADVANCED ANIMATED BACKGROUND ENGINE ---
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
+        let elements = [];
         let currentThemeIndex = 0;
+
         const themes = [
-            { id: 'theme-space', name: '🌌 Theme: Space' },
+            { id: 'theme-rain', name: '🌧️ Theme: Rain' },
+            { id: 'theme-leaves', name: '🍃 Theme: Leaves' },
+            { id: 'theme-lofi', name: '📖 Theme: Lofi Study' },
             { id: 'theme-cyber', name: '⚡ Theme: Cyber' },
-            { id: 'theme-aurora', name: '🌊 Theme: Aurora' },
+            { id: 'theme-space', name: '🌌 Theme: Space' },
             { id: 'theme-minimal', name: '🖤 Theme: Minimal' }
         ];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initParticles();
+            initThemeElements();
         }
 
-        function initParticles() {
-            particles = [];
-            const count = canvas.width < 600 ? 50 : 120;
+        function initThemeElements() {
+            elements = [];
             const theme = themes[currentThemeIndex].id;
 
-            for (let i = 0; i < count; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    radius: theme === 'theme-cyber' ? Math.random() * 3 + 1 : Math.random() * 1.8 + 0.5,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    alpha: Math.random(),
-                    speed: Math.random() * 0.01 + 0.005,
-                    color: getParticleColor(theme)
-                });
+            if (theme === 'theme-rain') {
+                const count = Math.floor(canvas.width / 8);
+                for (let i = 0; i < count; i++) {
+                    elements.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        length: Math.random() * 20 + 10,
+                        speed: Math.random() * 10 + 12,
+                        opacity: Math.random() * 0.4 + 0.1
+                    });
+                }
+            } else if (theme === 'theme-leaves') {
+                const count = 35;
+                for (let i = 0; i < count; i++) {
+                    elements.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        size: Math.random() * 7 + 5,
+                        speedY: Math.random() * 1.5 + 0.8,
+                        speedX: Math.random() * 1 - 0.5,
+                        rotation: Math.random() * 360,
+                        rotSpeed: Math.random() * 2 - 1,
+                        color: ['#88b04b', '#4d7c0f', '#a3e635', '#ca8a04'][Math.floor(Math.random() * 4)]
+                    });
+                }
+            } else if (theme === 'theme-lofi') {
+                // Particles / Dust
+                for (let i = 0; i < 40; i++) {
+                    elements.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 2 + 1,
+                        vx: Math.random() * 0.4 - 0.2,
+                        vy: Math.random() * -0.3 - 0.1,
+                        alpha: Math.random() * 0.5 + 0.2
+                    });
+                }
+            } else if (theme === 'theme-cyber' || theme === 'theme-space') {
+                for (let i = 0; i < 80; i++) {
+                    elements.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        radius: Math.random() * 2 + 0.5,
+                        vx: Math.random() * 0.6 - 0.3,
+                        vy: Math.random() * 0.6 - 0.3,
+                        alpha: Math.random(),
+                        speed: Math.random() * 0.02 + 0.005,
+                        color: theme === 'theme-cyber' ? '#00f0ff' : '#a855f7'
+                    });
+                }
             }
         }
 
-        function getParticleColor(theme) {
-            const spaceColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(255,255,255,'];
-            const cyberColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(255,230,0,'];
-            const auroraColors = ['rgba(0,255,204,', 'rgba(0,153,255,', 'rgba(160,32,240,'];
-            
-            if (theme === 'theme-space') return spaceColors[Math.floor(Math.random() * spaceColors.length)];
-            if (theme === 'theme-cyber') return cyberColors[Math.floor(Math.random() * cyberColors.length)];
-            if (theme === 'theme-aurora') return auroraColors[Math.floor(Math.random() * auroraColors.length)];
-            return 'rgba(255,255,255,';
-        }
-
-        function renderParticles() {
+        function renderBackground() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const currentTheme = themes[currentThemeIndex].id;
+            const theme = themes[currentThemeIndex].id;
 
-            if (currentTheme === 'theme-minimal') {
-                requestAnimationFrame(renderParticles);
-                return;
-            }
+            if (theme === 'theme-rain') {
+                ctx.strokeStyle = 'rgba(174, 194, 224, 0.5)';
+                ctx.lineWidth = 1.2;
+                for (let r of elements) {
+                    ctx.beginPath();
+                    ctx.moveTo(r.x, r.y);
+                    ctx.lineTo(r.x - r.length * 0.1, r.y + r.length);
+                    ctx.stroke();
 
-            for (let p of particles) {
-                p.alpha += p.speed;
-                if (p.alpha > 1 || p.alpha < 0.1) p.speed = -p.speed;
+                    r.y += r.speed;
+                    r.x -= 1;
+                    if (r.y > canvas.height) {
+                        r.y = -20;
+                        r.x = Math.random() * canvas.width;
+                    }
+                }
+            } else if (theme === 'theme-leaves') {
+                for (let l of elements) {
+                    ctx.save();
+                    ctx.translate(l.x, l.y);
+                    ctx.rotate((l.rotation * Math.PI) / 180);
+                    ctx.fillStyle = l.color;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, l.size, l.size / 2, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
 
-                if (currentTheme === 'theme-cyber' || currentTheme === 'theme-aurora') {
+                    l.y += l.speedY;
+                    l.x += Math.sin(l.y * 0.02) + l.speedX;
+                    l.rotation += l.rotSpeed;
+
+                    if (l.y > canvas.height) {
+                        l.y = -10;
+                        l.x = Math.random() * canvas.width;
+                    }
+                }
+            } else if (theme === 'theme-lofi') {
+                // Draw Studying Boy Silhouette Art on Bottom Right
+                const w = canvas.width;
+                const h = canvas.height;
+                
+                // Warm Desk Light Glow
+                let glow = ctx.createRadialGradient(w * 0.85, h * 0.8, 10, w * 0.85, h * 0.8, 300);
+                glow.addColorStop(0, 'rgba(255, 170, 0, 0.25)');
+                glow.addColorStop(1, 'transparent');
+                ctx.fillStyle = glow;
+                ctx.fillRect(0, 0, w, h);
+
+                // Silhouette
+                ctx.fillStyle = 'rgba(10, 8, 20, 0.85)';
+                // Desk
+                ctx.fillRect(w > 800 ? w - 450 : w - 300, h - 90, 500, 100);
+                // Student & Laptop
+                ctx.beginPath();
+                let baseX = w > 800 ? w - 320 : w - 220;
+                let baseY = h - 90;
+                // Laptop Screen
+                ctx.moveTo(baseX - 60, baseY);
+                ctx.lineTo(baseX - 20, baseY - 45);
+                ctx.lineTo(baseX - 25, baseY);
+                // Head
+                ctx.arc(baseX + 40, baseY - 90, 22, 0, Math.PI * 2);
+                // Body/Shoulders
+                ctx.moveTo(baseX + 15, baseY);
+                ctx.lineTo(baseX + 25, baseY - 65);
+                ctx.lineTo(baseX + 60, baseY - 65);
+                ctx.lineTo(baseX + 75, baseY);
+                ctx.fill();
+
+                // Dust Particles
+                ctx.fillStyle = 'rgba(255, 220, 150, 0.6)';
+                for (let p of elements) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > w) p.vx *= -1;
+                    if (p.y < 0 || p.y > h) p.y = h;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (theme === 'theme-cyber' || theme === 'theme-space') {
+                for (let p of elements) {
+                    p.alpha += p.speed;
+                    if (p.alpha > 1 || p.alpha < 0.1) p.speed = -p.speed;
                     p.x += p.vx;
                     p.y += p.vy;
                     if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                     if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                }
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = p.color + Math.max(0.05, p.alpha) + ')';
-                ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = Math.max(0.1, p.alpha);
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0;
+                }
             }
-            requestAnimationFrame(renderParticles);
+
+            requestAnimationFrame(renderBackground);
         }
 
         function cycleTheme() {
@@ -729,24 +830,24 @@
             document.getElementById('themeBtn').textContent = newTheme.name;
             localStorage.setItem('ttw_theme_index', currentThemeIndex);
             
-            initParticles();
+            initThemeElements();
         }
 
         window.addEventListener('resize', resizeCanvas);
-        
+
         // Restore Theme
         const savedThemeIndex = localStorage.getItem('ttw_theme_index');
         if (savedThemeIndex !== null) {
-            document.body.classList.remove('theme-space');
+            document.body.classList.remove('theme-rain');
             currentThemeIndex = parseInt(savedThemeIndex);
             document.body.classList.add(themes[currentThemeIndex].id);
             document.getElementById('themeBtn').textContent = themes[currentThemeIndex].name;
         }
 
         resizeCanvas();
-        renderParticles();
+        renderBackground();
 
-        // --- STYLE TOGGLE ENGINE ---
+        // --- UI STYLE ENGINE ---
         let currentStyle = localStorage.getItem('ttw_style') || 'ring'; 
         const lineView = document.getElementById('lineView');
         const ringView = document.getElementById('ringView');
@@ -789,7 +890,7 @@
         const stopBtn = document.getElementById('stopBtn');
         const progressBar = document.getElementById('progressBar');
         const ringCircle = document.getElementById('ringCircle');
-        const ringCircumference = 2 * Math.PI * 95; // Exact radius = 95
+        const ringCircumference = 2 * Math.PI * 102; // Exact Radius = 102
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
@@ -829,7 +930,6 @@
         }
 
         function switchToSetupMode() {
-            activeMode.classList.hidden;
             setupMode.classList.remove('hidden');
             activeMode.classList.add('hidden');
         }
@@ -901,7 +1001,7 @@
                 stopBtn.style.color = "#00ffcc";
             } else {
                 stopBtn.textContent = "⏸ Pause";
-                stopBtn.style.borderColor = "rgba(255, 170, 0, 0.3)";
+                stopBtn.style.borderColor = "rgba(255, 170, 0, 0.4)";
                 stopBtn.style.color = "#fff";
             }
         }
