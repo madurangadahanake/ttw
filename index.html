@@ -25,10 +25,12 @@
             padding: 30px 20px;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.8s ease;
         }
 
-        #starCanvas {
-            position: absolute;
+        /* --- BACKGROUND THEMES & ANIMATIONS --- */
+        #bgCanvas {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -37,18 +39,50 @@
             pointer-events: none;
         }
 
-        .space-glow {
-            position: absolute;
+        .ambient-overlay {
+            position: fixed;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.05), transparent 70%),
-                        radial-gradient(circle at 20% 80%, rgba(41, 128, 185, 0.05), transparent 60%);
             z-index: -1;
             pointer-events: none;
+            transition: all 0.8s ease;
         }
 
+        /* Theme 1: Deep Space Glow */
+        body.theme-space .ambient-overlay {
+            background: radial-gradient(circle at 50% 50%, rgba(155, 89, 182, 0.08), transparent 70%),
+                        radial-gradient(circle at 20% 80%, rgba(41, 128, 185, 0.08), transparent 60%);
+        }
+
+        /* Theme 2: Cyber Neon Orbs */
+        body.theme-cyber {
+            background-color: #050512;
+        }
+        body.theme-cyber .ambient-overlay {
+            background: radial-gradient(circle at 80% 20%, rgba(0, 240, 255, 0.12), transparent 50%),
+                        radial-gradient(circle at 10% 90%, rgba(255, 0, 127, 0.12), transparent 50%);
+        }
+
+        /* Theme 3: Aurora Flow */
+        body.theme-aurora {
+            background-color: #020b14;
+        }
+        body.theme-aurora .ambient-overlay {
+            background: radial-gradient(circle at 50% 0%, rgba(0, 255, 204, 0.15), transparent 60%),
+                        radial-gradient(circle at 100% 100%, rgba(0, 153, 255, 0.1), transparent 50%);
+        }
+
+        /* Theme 4: Minimal Dark */
+        body.theme-minimal {
+            background-color: #000000;
+        }
+        body.theme-minimal .ambient-overlay {
+            background: none;
+        }
+
+        /* TOP BAR */
         .top-bar {
             position: absolute;
             top: 20px;
@@ -90,6 +124,7 @@
         .icon-btn:hover {
             background: rgba(0, 240, 255, 0.2);
             border-color: #00f0ff;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
         }
 
         h1 {
@@ -145,7 +180,7 @@
             opacity: 0;
         }
 
-        /* --- SETUP MODE --- */
+        /* SETUP MODE */
         .presets-grid {
             display: flex;
             flex-wrap: wrap;
@@ -197,7 +232,7 @@
             outline: none;
         }
 
-        /* --- DASHBOARD LAYOUT --- */
+        /* DASHBOARD GRID */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -253,7 +288,7 @@
             width: 100% !important;
         }
 
-        /* CIRCULAR RING */
+        /* --- PERFECT CIRCULAR RING (NO CUT-OFF FIXED) --- */
         .ring-wrapper {
             position: relative;
             width: 100%;
@@ -263,6 +298,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px; /* Safe Padding for Glow */
         }
 
         .ring-svg {
@@ -272,26 +308,27 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
+            overflow: visible; /* Prevents SVG glow clipping */
         }
 
         .ring-bg {
             fill: none;
             stroke: rgba(255, 255, 255, 0.05);
-            stroke-width: 6;
+            stroke-width: 7;
         }
 
         .ring-circle {
             fill: none;
             stroke: #00f0ff;
-            stroke-width: 6;
+            stroke-width: 7;
             stroke-linecap: round;
-            filter: drop-shadow(0 0 12px #00f0ff);
+            filter: drop-shadow(0 0 10px #00f0ff);
             transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease;
         }
 
         .ring-circle.overtime {
             stroke: #ff007f;
-            filter: drop-shadow(0 0 12px #ff007f);
+            filter: drop-shadow(0 0 10px #ff007f);
         }
 
         .ring-content {
@@ -336,7 +373,7 @@
             text-shadow: 0 0 25px rgba(255, 0, 127, 0.6);
         }
 
-        /* --- UPDATED MODERN STATS CARDS --- */
+        /* STATS CARDS */
         .status-cards-vertical {
             display: flex;
             flex-direction: column;
@@ -356,7 +393,7 @@
             overflow: hidden;
             backdrop-filter: blur(12px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease;
         }
 
         .status-card:hover {
@@ -409,7 +446,7 @@
         .card-stopped .status-value { color: #ffaa00; text-shadow: 0 0 12px rgba(255, 170, 0, 0.4); }
         .card-overtime .status-value { color: #ff007f; text-shadow: 0 0 12px rgba(255, 0, 127, 0.5); }
 
-        /* --- UPDATED MODERN CONTROLS --- */
+        /* CONTROLS */
         .controls {
             display: flex;
             justify-content: space-between;
@@ -435,9 +472,7 @@
             gap: 8px;
         }
 
-        #startBtn {
-            border-color: rgba(0, 240, 255, 0.3);
-        }
+        #startBtn { border-color: rgba(0, 240, 255, 0.3); }
         #startBtn:hover {
             background: rgba(0, 240, 255, 0.15);
             color: #00f0ff;
@@ -445,9 +480,7 @@
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
         }
 
-        #stopBtn {
-            border-color: rgba(255, 170, 0, 0.3);
-        }
+        #stopBtn { border-color: rgba(255, 170, 0, 0.3); }
         #stopBtn:hover {
             background: rgba(255, 170, 0, 0.15);
             color: #ffaa00;
@@ -455,9 +488,7 @@
             box-shadow: 0 0 20px rgba(255, 170, 0, 0.35);
         }
 
-        #resetBtn {
-            border-color: rgba(255, 255, 255, 0.12);
-        }
+        #resetBtn { border-color: rgba(255, 255, 255, 0.12); }
         #resetBtn:hover {
             background: rgba(255, 0, 127, 0.15);
             color: #ff007f;
@@ -467,14 +498,16 @@
 
     </style>
 </head>
-<body>
+<body class="theme-space">
 
-    <canvas id="starCanvas"></canvas>
-    <div class="space-glow"></div>
+    <!-- ANIMATED BACKGROUND CANVAS & OVERLAY -->
+    <canvas id="bgCanvas"></canvas>
+    <div class="ambient-overlay"></div>
 
     <div class="top-bar">
         <div class="local-clock" id="localClock">00:00:00 AM</div>
         <div class="top-bar-right">
+            <button class="icon-btn" onclick="cycleTheme()" id="themeBtn">🌌 Theme: Space</button>
             <button class="icon-btn" onclick="toggleStyle()" id="styleToggleBtn">🔄 Style: Ring</button>
             <button class="icon-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
         </div>
@@ -528,12 +561,12 @@
                         <div class="display" id="timerDisplayLine">00:00:00</div>
                     </div>
 
-                    <!-- RING VIEW -->
+                    <!-- RING VIEW (EXACTLY FIXED RADIUS & VIEWBOX) -->
                     <div id="ringView" style="width: 100%;">
                         <div class="ring-wrapper">
-                            <svg class="ring-svg" viewBox="0 0 200 200">
-                                <circle class="ring-bg" cx="100" cy="100" r="92"></circle>
-                                <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="92" stroke-dasharray="578.05" stroke-dashoffset="0"></circle>
+                            <svg class="ring-svg" viewBox="0 0 220 220">
+                                <circle class="ring-bg" cx="110" cy="110" r="95"></circle>
+                                <circle class="ring-circle" id="ringCircle" cx="110" cy="110" r="95" stroke-dasharray="596.9" stroke-dashoffset="0"></circle>
                             </svg>
                             <div class="ring-content">
                                 <div class="labels">
@@ -547,7 +580,7 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE: ENHANCED STATS CARDS & CONTROLS -->
+                <!-- RIGHT SIDE: STATS CARDS & CONTROLS -->
                 <div class="stats-control-side">
                     <div class="status-cards-vertical">
                         <div class="status-card card-target">
@@ -611,53 +644,109 @@
             }
         }
 
-        // CANVAS STARFIELD
-        const canvas = document.getElementById('starCanvas');
-        const ctx = canvas.getContext('2d', { alpha: false });
-        let stars = [];
-        const rgbColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(0,255,204,', 'rgba(255,255,255,'];
+        // --- BACKGROUND CANVAS ANIMATION ENGINE ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let currentThemeIndex = 0;
+        const themes = [
+            { id: 'theme-space', name: '🌌 Theme: Space' },
+            { id: 'theme-cyber', name: '⚡ Theme: Cyber' },
+            { id: 'theme-aurora', name: '🌊 Theme: Aurora' },
+            { id: 'theme-minimal', name: '🖤 Theme: Minimal' }
+        ];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            initStars();
+            initParticles();
         }
 
-        function initStars() {
-            stars = [];
-            const numStars = canvas.width < 600 ? 60 : 130; 
-            for (let i = 0; i < numStars; i++) {
-                stars.push({
+        function initParticles() {
+            particles = [];
+            const count = canvas.width < 600 ? 50 : 120;
+            const theme = themes[currentThemeIndex].id;
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    radius: Math.random() * 1.5 + 0.5,
-                    color: rgbColors[Math.floor(Math.random() * rgbColors.length)],
+                    radius: theme === 'theme-cyber' ? Math.random() * 3 + 1 : Math.random() * 1.8 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
                     alpha: Math.random(),
-                    speed: Math.random() * 0.01 + 0.005
+                    speed: Math.random() * 0.01 + 0.005,
+                    color: getParticleColor(theme)
                 });
             }
         }
 
-        function animateStars() {
-            ctx.fillStyle = '#020208';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < stars.length; i++) {
-                let s = stars[i];
-                s.alpha += s.speed;
-                if (s.alpha > 1 || s.alpha < 0.1) s.speed = -s.speed;
+        function getParticleColor(theme) {
+            const spaceColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(255,255,255,'];
+            const cyberColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(255,230,0,'];
+            const auroraColors = ['rgba(0,255,204,', 'rgba(0,153,255,', 'rgba(160,32,240,'];
+            
+            if (theme === 'theme-space') return spaceColors[Math.floor(Math.random() * spaceColors.length)];
+            if (theme === 'theme-cyber') return cyberColors[Math.floor(Math.random() * cyberColors.length)];
+            if (theme === 'theme-aurora') return auroraColors[Math.floor(Math.random() * auroraColors.length)];
+            return 'rgba(255,255,255,';
+        }
+
+        function renderParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const currentTheme = themes[currentThemeIndex].id;
+
+            if (currentTheme === 'theme-minimal') {
+                requestAnimationFrame(renderParticles);
+                return;
+            }
+
+            for (let p of particles) {
+                p.alpha += p.speed;
+                if (p.alpha > 1 || p.alpha < 0.1) p.speed = -p.speed;
+
+                if (currentTheme === 'theme-cyber' || currentTheme === 'theme-aurora') {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                }
+
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-                ctx.fillStyle = s.color + Math.max(0.1, s.alpha) + ')';
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.max(0.05, p.alpha) + ')';
                 ctx.fill();
             }
-            requestAnimationFrame(animateStars);
+            requestAnimationFrame(renderParticles);
+        }
+
+        function cycleTheme() {
+            document.body.classList.remove(themes[currentThemeIndex].id);
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const newTheme = themes[currentThemeIndex];
+            
+            document.body.classList.add(newTheme.id);
+            document.getElementById('themeBtn').textContent = newTheme.name;
+            localStorage.setItem('ttw_theme_index', currentThemeIndex);
+            
+            initParticles();
         }
 
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        animateStars();
+        
+        // Restore Theme
+        const savedThemeIndex = localStorage.getItem('ttw_theme_index');
+        if (savedThemeIndex !== null) {
+            document.body.classList.remove('theme-space');
+            currentThemeIndex = parseInt(savedThemeIndex);
+            document.body.classList.add(themes[currentThemeIndex].id);
+            document.getElementById('themeBtn').textContent = themes[currentThemeIndex].name;
+        }
 
-        // STYLE TOGGLE SYSTEM
+        resizeCanvas();
+        renderParticles();
+
+        // --- STYLE TOGGLE ENGINE ---
         let currentStyle = localStorage.getItem('ttw_style') || 'ring'; 
         const lineView = document.getElementById('lineView');
         const ringView = document.getElementById('ringView');
@@ -685,7 +774,7 @@
             updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
         }
 
-        // TIMER ENGINE
+        // --- TIMER ENGINE ---
         let mainTimer, stopCountUp;
         let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
         let isRunning = false, isStopRunning = false, isOvertime = false; 
@@ -700,7 +789,7 @@
         const stopBtn = document.getElementById('stopBtn');
         const progressBar = document.getElementById('progressBar');
         const ringCircle = document.getElementById('ringCircle');
-        const ringCircumference = 2 * Math.PI * 92;
+        const ringCircumference = 2 * Math.PI * 95; // Exact radius = 95
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
@@ -740,8 +829,9 @@
         }
 
         function switchToSetupMode() {
-            activeMode.classList.add('hidden');
+            activeMode.classList.hidden;
             setupMode.classList.remove('hidden');
+            activeMode.classList.add('hidden');
         }
 
         function startTimer() {
@@ -842,6 +932,7 @@
             
             localStorage.clear();
             localStorage.setItem('ttw_style', currentStyle);
+            localStorage.setItem('ttw_theme_index', currentThemeIndex);
 
             displayLine.classList.remove('overtime');
             displayRing.classList.remove('overtime');
