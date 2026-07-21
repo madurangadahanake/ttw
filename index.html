@@ -23,7 +23,7 @@
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
 
@@ -49,9 +49,52 @@
             pointer-events: none;
         }
 
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .local-clock {
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: rgba(0, 240, 255, 0.8);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .icon-btn:hover {
+            background: rgba(0, 240, 255, 0.2);
+            border-color: #00f0ff;
+        }
+
         h1 {
             font-size: clamp(28px, 5vw, 38px);
             letter-spacing: 4px;
+            margin-top: 40px;
             margin-bottom: 20px;
             text-transform: uppercase;
             font-weight: 800;
@@ -74,7 +117,7 @@
             background: rgba(10, 10, 20, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: clamp(20px, 5vw, 40px);
+            padding: clamp(20px, 5vw, 35px);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
             max-width: 650px;
@@ -103,11 +146,113 @@
             opacity: 0;
         }
 
+        .presets-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .preset-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ddd;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: #00f0ff;
+            color: #00f0ff;
+        }
+
+        /* --- STYLE 1: LINEAR PROGRESS BAR --- */
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #00f0ff, #00ffcc);
+            box-shadow: 0 0 12px #00f0ff;
+            border-radius: 10px;
+            transition: width 0.3s linear, background 0.5s ease;
+        }
+
+        .progress-bar-fill.overtime {
+            background: linear-gradient(90deg, #ff007f, #ff5500);
+            box-shadow: 0 0 12px #ff007f;
+            width: 100% !important;
+        }
+
+        /* --- STYLE 2: CIRCULAR RING (LARGER & RESPONSIVE) --- */
+        .ring-wrapper {
+            position: relative;
+            width: clamp(260px, 55vw, 340px);
+            height: clamp(260px, 55vw, 340px);
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ring-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 8;
+        }
+
+        .ring-circle {
+            fill: none;
+            stroke: #00f0ff;
+            stroke-width: 8;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 8px #00f0ff);
+            transition: stroke-dashoffset 0.3s linear, stroke 0.5s ease, filter 0.5s ease;
+        }
+
+        .ring-circle.overtime {
+            stroke: #ff007f;
+            filter: drop-shadow(0 0 8px #ff007f);
+        }
+
+        .ring-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
         .labels {
             display: flex;
             justify-content: space-around;
+            width: 80%;
             color: rgba(255, 255, 255, 0.3);
-            font-size: clamp(10px, 2.5vw, 13px);
+            font-size: clamp(9px, 2.2vw, 11px);
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 5px;
@@ -115,22 +260,31 @@
 
         .display {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(45px, 12vw, 80px);
+            font-size: clamp(30px, 7vw, 48px);
             color: #ffffff;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             transition: color 0.5s ease, text-shadow 0.5s ease;
         }
 
-        /* Overtime Display Style */
+        /* Display Style adjustments when in Line mode */
+        .style-line .display {
+            font-size: clamp(45px, 11vw, 75px);
+            margin-bottom: 25px;
+        }
+        .style-line .labels {
+            width: 100%;
+            font-size: clamp(10px, 2.5vw, 13px);
+        }
+
         .display.overtime {
             color: #ff007f;
             text-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
         }
 
         .inputs-section {
-            margin: 25px 0;
+            margin: 15px 0 25px 0;
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -167,15 +321,15 @@
             background-color: rgba(255, 255, 255, 0.03);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px 35px;
+            padding: 12px 25px;
             font-size: clamp(14px, 4vw, 16px);
             font-weight: bold;
             cursor: pointer;
             border-radius: 10px;
             transition: all 0.2s ease;
             flex: 1;
-            min-width: 100px;
-            max-width: 160px;
+            min-width: 90px;
+            max-width: 150px;
         }
 
         .controls button:hover {
@@ -199,19 +353,18 @@
         }
 
         .status-panel {
-            margin-top: 30px;
+            margin-top: 25px;
             background: rgba(5, 5, 10, 0.8);
-            padding: 20px;
+            padding: 15px 20px;
             border-radius: 15px;
             border-left: 4px solid #00f0ff;
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             transition: border-left-color 0.5s ease;
         }
 
-        /* Overtime Status Panel Style */
         .status-panel.overtime-panel {
             border-left-color: #ff007f;
         }
@@ -221,7 +374,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            padding-bottom: 8px;
+            padding-bottom: 6px;
         }
 
         .status-row:last-child {
@@ -231,12 +384,12 @@
 
         .status-label {
             color: rgba(255, 255, 255, 0.5);
-            font-size: clamp(12px, 3.5vw, 14px);
+            font-size: clamp(12px, 3.5vw, 13px);
         }
 
         .status-value {
             font-family: 'Digital Numbers', sans-serif;
-            font-size: clamp(18px, 5vw, 24px);
+            font-size: clamp(16px, 4.5vw, 20px);
             color: #ffffff;
             letter-spacing: 1px;
         }
@@ -251,7 +404,6 @@
             text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
         }
 
-        /* Overtime Extra Row Styling */
         .status-row.overtime-row .status-value {
             color: #ff007f;
             text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
@@ -263,13 +415,33 @@
     <canvas id="starCanvas"></canvas>
     <div class="space-glow"></div>
 
+    <div class="top-bar">
+        <div class="local-clock" id="localClock">00:00:00 AM</div>
+        <div class="top-bar-right">
+            <button class="icon-btn" onclick="toggleStyle()" id="styleToggleBtn">🔄 Style: Ring</button>
+            <button class="icon-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+        </div>
+    </div>
+
     <h1>TTW - Time to Work</h1>
 
-    <div class="timer-container">
+    <div class="timer-container" id="timerContainer">
         
         <!-- SETUP MODE -->
         <div id="setupMode" class="fade-element">
-            <h2 style="color: rgba(255,255,255,0.3); font-size: 14px; margin-bottom: 5px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Set Target Time</h2>
+            <h2 style="color: rgba(255,255,255,0.4); font-size: 13px; margin-bottom: 10px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Quick Presets</h2>
+            
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="setPreset(0, 15, 0)">15M</button>
+                <button class="preset-btn" onclick="setPreset(0, 25, 0)">25M</button>
+                <button class="preset-btn" onclick="setPreset(0, 50, 0)">50M</button>
+                <button class="preset-btn" onclick="setPreset(1, 0, 0)">1H</button>
+                <button class="preset-btn" onclick="setPreset(2, 0, 0)">2H</button>
+                <button class="preset-btn" onclick="setPreset(3, 0, 0)">3H</button>
+                <button class="preset-btn" onclick="setPreset(6, 0, 0)">6H</button>
+            </div>
+
+            <h2 style="color: rgba(255,255,255,0.3); font-size: 12px; margin-bottom: 5px; font-weight: normal; letter-spacing: 2px; text-transform: uppercase;">Or Set Custom Target Time</h2>
             <div class="inputs-section">
                 <input type="number" id="hrs" placeholder="HH" min="0" max="99" oninput="validity.valid||(value='');">
                 <input type="number" id="mins" placeholder="MM" min="0" max="59" oninput="validity.valid||(value='');">
@@ -282,17 +454,41 @@
 
         <!-- ACTIVE MODE -->
         <div id="activeMode" class="fade-element hidden">
-            <div class="labels">
-                <span>Hours</span>
-                <span>Minutes</span>
-                <span>Seconds</span>
-            </div>
             
-            <div class="display" id="timerDisplay">00:00:00</div>
+            <!-- VIEW 1: LINEAR PROGRESS BAR -->
+            <div id="lineView" class="hidden">
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+                <div class="labels">
+                    <span>Hours</span>
+                    <span>Minutes</span>
+                    <span>Seconds</span>
+                </div>
+                <div class="display" id="timerDisplayLine">00:00:00</div>
+            </div>
+
+            <!-- VIEW 2: CIRCULAR RING (LARGE) -->
+            <div id="ringView">
+                <div class="ring-wrapper">
+                    <svg class="ring-svg" viewBox="0 0 200 200">
+                        <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="ring-circle" id="ringCircle" cx="100" cy="100" r="90" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="ring-content">
+                        <div class="labels">
+                            <span>HRS</span>
+                            <span>MIN</span>
+                            <span>SEC</span>
+                        </div>
+                        <div class="display" id="timerDisplayRing">00:00:00</div>
+                    </div>
+                </div>
+            </div>
 
             <div class="controls">
                 <button id="startBtn" onclick="startTimer()">Start</button>
-                <button id="stopBtn" onclick="stopTimer()">Stop</button>
+                <button id="stopBtn" onclick="togglePauseResume()">Pause</button>
                 <button id="resetBtn" onclick="resetTimer()">Reset</button>
             </div>
 
@@ -306,10 +502,9 @@
                     <span class="status-value" id="elapsedStatus">00:00:00</span>
                 </div>
                 <div class="status-row">
-                    <span class="status-label">Total Stopped</span>
+                    <span class="status-label">Total Stopped / Paused</span>
                     <span class="status-value" id="stopStatus">00:00:00</span>
                 </div>
-                <!-- Overtime Row (Hidden Initially) -->
                 <div class="status-row overtime-row hidden" id="overtimeRow">
                     <span class="status-label">Overtime (අමතර කාලය)</span>
                     <span class="status-value" id="overtimeStatus">+00:00:00</span>
@@ -320,10 +515,24 @@
     </div>
 
     <script>
-        // --- CANVAS STARFIELD ---
+        function updateLocalClock() {
+            const now = new Date();
+            document.getElementById('localClock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateLocalClock, 1000);
+        updateLocalClock();
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // CANVAS STARFIELD
         const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d', { alpha: false });
-
         let stars = [];
         const rgbColors = ['rgba(0,240,255,', 'rgba(255,0,127,', 'rgba(112,0,255,', 'rgba(0,255,204,', 'rgba(255,255,255,'];
 
@@ -351,12 +560,10 @@
         function animateStars() {
             ctx.fillStyle = '#020208';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
             for (let i = 0; i < stars.length; i++) {
                 let s = stars[i];
                 s.alpha += s.speed;
                 if (s.alpha > 1 || s.alpha < 0.1) s.speed = -s.speed;
-
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
                 ctx.fillStyle = s.color + Math.max(0.1, s.alpha) + ')';
@@ -365,32 +572,62 @@
             requestAnimationFrame(animateStars);
         }
 
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(resizeCanvas, 150);
-        });
-
+        window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
         animateStars();
 
-        // --- TIMER CORE LOGIC (WITH OVERTIME) ---
+        // STYLE TOGGLE SYSTEM (Ring / Line)
+        let currentStyle = localStorage.getItem('ttw_style') || 'ring'; 
+        const lineView = document.getElementById('lineView');
+        const ringView = document.getElementById('ringView');
+        const styleToggleBtn = document.getElementById('styleToggleBtn');
+        const timerContainer = document.getElementById('timerContainer');
+
+        function applyStyleUI() {
+            if (currentStyle === 'line') {
+                ringView.classList.add('hidden');
+                lineView.classList.remove('hidden');
+                timerContainer.classList.add('style-line');
+                styleToggleBtn.textContent = '🔄 Style: Line';
+            } else {
+                lineView.classList.add('hidden');
+                ringView.classList.remove('hidden');
+                timerContainer.classList.remove('style-line');
+                styleToggleBtn.textContent = '🔄 Style: Ring';
+            }
+        }
+
+        function toggleStyle() {
+            currentStyle = currentStyle === 'ring' ? 'line' : 'ring';
+            localStorage.setItem('ttw_style', currentStyle);
+            applyStyleUI();
+            updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
+        }
+
+        // TIMER LOGIC
         let mainTimer, stopCountUp;
         let initialSeconds = 0, currentSeconds = 0, totalStopSeconds = 0, overtimeSeconds = 0; 
         let isRunning = false, isStopRunning = false, isOvertime = false; 
 
-        const display = document.getElementById('timerDisplay');
+        const displayLine = document.getElementById('timerDisplayLine');
+        const displayRing = document.getElementById('timerDisplayRing');
         const targetStatus = document.getElementById('targetStatus');
         const elapsedStatus = document.getElementById('elapsedStatus');
         const stopStatus = document.getElementById('stopStatus');
         const overtimeRow = document.getElementById('overtimeRow');
         const overtimeStatus = document.getElementById('overtimeStatus');
         const mainStatusPanel = document.getElementById('mainStatusPanel');
+        const stopBtn = document.getElementById('stopBtn');
+        const progressBar = document.getElementById('progressBar');
+        const ringCircle = document.getElementById('ringCircle');
+        const ringCircumference = 2 * Math.PI * 90; // 565.48
         
         const setupMode = document.getElementById('setupMode');
         const activeMode = document.getElementById('activeMode');
 
         window.onload = function() {
+            applyStyleUI();
+
             if(localStorage.getItem('ttw_initial')) {
                 initialSeconds = parseInt(localStorage.getItem('ttw_initial')) || 0;
                 currentSeconds = parseInt(localStorage.getItem('ttw_current')) || 0;
@@ -399,21 +636,23 @@
                 overtimeSeconds = parseInt(localStorage.getItem('ttw_overtime_seconds')) || 0;
                 
                 switchToActiveMode();
-                
-                if (isOvertime) {
-                    enableOvertimeUI();
-                    updateDisplay(overtimeSeconds);
-                } else {
-                    updateDisplay(currentSeconds);
-                }
-                
+                if (isOvertime) enableOvertimeUI();
+                updateDisplay(isOvertime ? overtimeSeconds : currentSeconds);
                 updateStatusPanels();
 
                 if(localStorage.getItem('ttw_is_stopped') === 'true') {
                     runStopTimer();
+                    updateStopButtonUI(true);
                 }
             }
         };
+
+        function setPreset(h, m, s) {
+            document.getElementById('hrs').value = h || '';
+            document.getElementById('mins').value = m || '';
+            document.getElementById('secs').value = s || '';
+            startTimer();
+        }
 
         function switchToActiveMode() {
             setupMode.classList.add('hidden');
@@ -431,6 +670,7 @@
             clearInterval(stopCountUp);
             isStopRunning = false;
             localStorage.setItem('ttw_is_stopped', 'false');
+            updateStopButtonUI(false);
 
             if (currentSeconds === 0 && !isOvertime) {
                 const hrs = Math.max(0, parseInt(document.getElementById('hrs').value) || 0);
@@ -452,13 +692,11 @@
             
             mainTimer = setInterval(() => {
                 if (!isOvertime) {
-                    // Countdown Phase
                     if (currentSeconds > 0) {
                         currentSeconds--;
                         localStorage.setItem('ttw_current', currentSeconds);
                         updateDisplay(currentSeconds);
                     } else {
-                        // Switch to Overtime Phase
                         isOvertime = true;
                         localStorage.setItem('ttw_is_overtime', 'true');
                         enableOvertimeUI();
@@ -466,7 +704,6 @@
                 } 
                 
                 if (isOvertime) {
-                    // Count-up Overtime Phase
                     overtimeSeconds++;
                     localStorage.setItem('ttw_overtime_seconds', overtimeSeconds);
                     updateDisplay(overtimeSeconds);
@@ -476,11 +713,26 @@
             }, 1000);
         }
 
-        function stopTimer() {
-            if (isRunning || (!isRunning && (currentSeconds > 0 || isOvertime) && !isStopRunning)) {
+        function togglePauseResume() {
+            if (isRunning) {
                 clearInterval(mainTimer);
                 isRunning = false;
                 runStopTimer();
+                updateStopButtonUI(true);
+            } else if (isStopRunning) {
+                startTimer();
+            }
+        }
+
+        function updateStopButtonUI(isPaused) {
+            if (isPaused) {
+                stopBtn.textContent = "Resume";
+                stopBtn.style.borderColor = "#00ffcc";
+                stopBtn.style.color = "#00ffcc";
+            } else {
+                stopBtn.textContent = "Pause";
+                stopBtn.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                stopBtn.style.color = "#fff";
             }
         }
 
@@ -509,12 +761,21 @@
             overtimeSeconds = 0;
             
             localStorage.clear();
+            localStorage.setItem('ttw_style', currentStyle);
 
-            display.classList.remove('overtime');
+            displayLine.classList.remove('overtime');
+            displayRing.classList.remove('overtime');
             mainStatusPanel.classList.remove('overtime-panel');
             overtimeRow.classList.add('hidden');
+            
+            progressBar.classList.remove('overtime');
+            progressBar.style.width = "100%";
 
-            display.textContent = "00:00:00";
+            ringCircle.classList.remove('overtime');
+            ringCircle.style.strokeDashoffset = "0";
+
+            displayLine.textContent = "00:00:00";
+            displayRing.textContent = "00:00:00";
             targetStatus.textContent = "00:00:00";
             elapsedStatus.textContent = "00:00:00";
             stopStatus.textContent = "00:00:00";
@@ -524,13 +785,17 @@
             document.getElementById('mins').value = '';
             document.getElementById('secs').value = '';
 
+            updateStopButtonUI(false);
             switchToSetupMode();
         }
 
         function enableOvertimeUI() {
-            display.classList.add('overtime');
+            displayLine.classList.add('overtime');
+            displayRing.classList.add('overtime');
             mainStatusPanel.classList.add('overtime-panel');
             overtimeRow.classList.remove('hidden');
+            progressBar.classList.add('overtime');
+            ringCircle.classList.add('overtime');
         }
 
         function formatTime(secs) {
@@ -541,21 +806,30 @@
         }
 
         function updateDisplay(secs) {
-            display.textContent = (isOvertime ? "+" : "") + formatTime(secs);
+            const formatted = (isOvertime ? "+" : "") + formatTime(secs);
+            displayLine.textContent = formatted;
+            displayRing.textContent = formatted;
+            
+            if (!isOvertime && initialSeconds > 0) {
+                const ratio = currentSeconds / initialSeconds;
+                
+                // Line bar update
+                progressBar.style.width = `${ratio * 100}%`;
+
+                // Ring circle update
+                const offset = ringCircumference - (ratio * ringCircumference);
+                ringCircle.style.strokeDashoffset = offset;
+            } else if (isOvertime) {
+                ringCircle.style.strokeDashoffset = 0;
+            }
         }
 
         function updateStatusPanels() {
             targetStatus.textContent = formatTime(initialSeconds);
-            
-            // Elapsed time includes the initial countdown time + overtime
             const elapsed = (initialSeconds - currentSeconds) + overtimeSeconds;
             elapsedStatus.textContent = formatTime(elapsed);
-            
             stopStatus.textContent = formatTime(totalStopSeconds);
-            
-            if (isOvertime) {
-                overtimeStatus.textContent = "+" + formatTime(overtimeSeconds);
-            }
+            if (isOvertime) overtimeStatus.textContent = "+" + formatTime(overtimeSeconds);
         }
     </script>
 </body>
